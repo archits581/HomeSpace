@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser, PermissionsMixin
+from . models import Member
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=40, required=True)
@@ -30,11 +31,18 @@ class SignUpForm(UserCreationForm):
         cleaned_data = super(UserCreationForm, self).clean()
         password1 = cleaned_data.get("password1")
         password2 = cleaned_data.get("password2")
+        email = cleaned_data.get("email")
+        number = cleaned_data.get("contact_number")
 
         if password1 != password2:
-            raise forms.ValidationError(
-                "password and confirm_password does not match"
-            )
+            raise forms.ValidationError("Passwords do not match")
+        
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Email already exists")
+
+        if Member.objects.filter(contact_number=number).exists():
+            raise forms.ValidationError("Phone number already exists in our records")
+        
 
 
 

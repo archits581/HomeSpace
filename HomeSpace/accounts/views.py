@@ -19,7 +19,7 @@ def SignUp(request):
             username = form.cleaned_data.get('username')
             user = User.objects.create_user(username=username, first_name = fname, last_name = lname, password=p1, email=email)
             user.save()
-            member = Member.objects.create(user = User, contact_number=number)
+            member = Member.objects.create(user = user, contact_number=number)
             member.save()
             return redirect('accounts:login')
 
