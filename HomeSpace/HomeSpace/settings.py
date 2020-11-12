@@ -79,8 +79,11 @@ WSGI_APPLICATION = 'HomeSpace.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'HomeSpace',
+        'USER': 'postgres',
+        'PASSWORD': 'Black@@Hawk581/*postgresql',
+        'HOST': 'localhost',
     }
 }
 
