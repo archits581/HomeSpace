@@ -19,24 +19,24 @@ furnished_choices = [
 ]
 
 class City(models.Model):
-    name = models.CharField(required=True, max_length=30)
+    name = models.CharField(blank=False, max_length=30)
 
 class Locality(models.Model):
-    name = models.CharField(required=True, max_length=30)
+    name = models.CharField(blank=False, max_length=30)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
 
 class PropertyDescription(models.Model):
-    apartment_number = models.CharField(required=True, max_length=7)
-    building = models.CharField(required=True, max_length=255)
+    apartment_number = models.CharField(blank=False, max_length=7)
+    building = models.CharField(blank=False, max_length=255)
     locality = models.ForeignKey(Locality, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     description = models.TextField(blank=False, max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cover_pic = models.ImageField(required=True, upload_to='photos/cover')
+    cover_pic = models.ImageField(blank=False, upload_to='photos/cover')
     price = models.IntegerField(validators=[MinValueValidator(2000), MaxValueValidator(100000)])
-    tenant_type = models.CharField(choices=tenant_choices)
+    tenant_type = models.CharField(max_length=30, choices=tenant_choices)
     deposit = models.IntegerField(validators=[MinValueValidator(1000), MaxValueValidator(1000000)])
-    furnished = models.CharField(choices=furnished_choices)
+    furnished = models.CharField(max_length=30, choices=furnished_choices)
     club_house = models.BooleanField()
     swimming_pool = models.BooleanField()
     security = models.BooleanField()
