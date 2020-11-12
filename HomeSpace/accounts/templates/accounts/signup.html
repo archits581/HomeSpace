@@ -8,8 +8,9 @@
     <title>HomeSpace-Sign Up</title>
 </head>
 <body>
-    <div class="container" style="margin: 0 auto; width:30%; margin-top: 20px; border: 0.3px solid rgb(184, 175, 175); border-radius: 20px; padding: 20px">
-        
+    <div class="container" style=" margin-bottom: 40px; width:30%; margin-top: 20px; box-shadow: 0px 0px 5px 0px #888888; padding: 20px; border-radius: 6px;">
+        <h1 style="text-align: center;">SIGN UP</h1>
+        <br>
         <form action="" method="POST"  novalidate>
             {% csrf_token %}
 
@@ -49,7 +50,10 @@
                 {% endif %}
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-primary">Sign Up!</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger btn-lg">Sign Up!</button>
+            </div>
+            
         </form>
     </div>
 </body>
