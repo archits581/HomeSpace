@@ -21,3 +21,6 @@ def createPropertyView(request):
         form = PropertyDescriptionForm()
     return render(request, 'properties/add.html', {'form': form})
 
+def homePage(request):
+    return render(request, 'base.html', {})
+
