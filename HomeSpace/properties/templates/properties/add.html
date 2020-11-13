@@ -6,52 +6,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <title>HomeSpace-Add Property</title>
 </head>
 <body>
-    <form action="" method="POST"  novalidate>
-        {% csrf_token %}
-
-        {% for hidden_field in form.hidden_fields %}
-            {{ hidden_field }}
-        {% endfor %}
-
-        {% if form.non_field_errors %}
-            <div class="alert alert-danger" role="alert">
-            {% for error in form.non_field_errors %}
-                {{ error }}
-            {% endfor %}
-            </div>
-        {% endif %}
-
-        {% for field in form.visible_fields %}
-            <div class="form-group">
-            {{ field.label_tag }}
-
-            {% if form.is_bound %}
-                {% if field.errors %}
-                {% render_field field class="form-control is-invalid" %}
-                {% for error in field.errors %}
-                    <div class="invalid-feedback">
-                    {{ error }}
-                    </div>
-                {% endfor %}
-                {% else %}
-                {% render_field field class="form-control is-valid" %}
-                {% endif %}
-            {% else %}
-                {% render_field field class="form-control" %}
-            {% endif %}
-
-            {% if field.help_text %}
-                <small class="form-text text-muted">{{ field.help_text }}</small>
-            {% endif %}
-            </div>
-        {% endfor %}
+    <div class="container" style="width: 90%; margin-top: 50px; margin-bottom: 60px; box-shadow: 3px 3px 10px 0px #888888; padding: 40px; border-radius: 10px; ">
         <div class="text-center">
-            <button type="submit" class="btn btn-danger btn-lg">Add Photos ></button>
+            <img width="100" src="data:image/svg+xml;base64,PHN2ZyBpZD0iX3gzMV8iIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0xMS44OTQgMjRjLS4xMzEgMC0uMjU5LS4wNTItLjM1NC0uMTQ2LS4xMTgtLjExOC0uMTctLjI4OC0uMTM3LS40NTFsLjcwNy0zLjUzNWMuMDItLjA5OC4wNjYtLjE4Ny4xMzctLjI1Nmw3Ljc3OC03Ljc3OGMuNTg0LS41ODQgMS41MzctLjU4NCAyLjEyMSAwbDEuNDE0IDEuNDE0Yy41ODUuNTg1LjU4NSAxLjUzNiAwIDIuMTIxbC03Ljc3OCA3Ljc3OGMtLjA2OS4wNy0uMTU4LjExNy0uMjU2LjEzN2wtMy41MzUuNzA3Yy0uMDMyLjAwNi0uMDY1LjAwOS0uMDk3LjAwOXptMS4xNjgtMy43ODktLjUzIDIuNjUxIDIuNjUxLS41MyA3LjY3MS03LjY3MWMuMTk1LS4xOTUuMTk1LS41MTIgMC0uNzA3bC0xLjQxNC0xLjQxNGMtLjE5NS0uMTk1LS41MTItLjE5NS0uNzA3IDB6bTIuMzY3IDIuNTgyaC4wMXoiLz48cGF0aCBkPSJtOS41IDIxaC03Yy0xLjM3OSAwLTIuNS0xLjEyMS0yLjUtMi41di0xM2MwLTEuMzc5IDEuMTIxLTIuNSAyLjUtMi41aDJjLjI3NiAwIC41LjIyNC41LjVzLS4yMjQuNS0uNS41aC0yYy0uODI3IDAtMS41LjY3My0xLjUgMS41djEzYzAgLjgyNy42NzMgMS41IDEuNSAxLjVoN2MuMjc2IDAgLjUuMjI0LjUuNXMtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTE2LjUgMTJjLS4yNzYgMC0uNS0uMjI0LS41LS41di02YzAtLjgyNy0uNjczLTEuNS0xLjUtMS41aC0yYy0uMjc2IDAtLjUtLjIyNC0uNS0uNXMuMjI0LS41LjUtLjVoMmMxLjM3OSAwIDIuNSAxLjEyMSAyLjUgMi41djZjMCAuMjc2LS4yMjQuNS0uNS41eiIvPjxwYXRoIGQ9Im0xMS41IDZoLTZjLS44MjcgMC0xLjUtLjY3My0xLjUtMS41di0yYzAtLjI3Ni4yMjQtLjUuNS0uNWgxLjU1Yy4yMzItMS4xNCAxLjI0My0yIDIuNDUtMnMyLjIxOC44NiAyLjQ1IDJoMS41NWMuMjc2IDAgLjUuMjI0LjUuNXYyYzAgLjgyNy0uNjczIDEuNS0xLjUgMS41em0tNi41LTN2MS41YzAgLjI3NS4yMjUuNS41LjVoNmMuMjc1IDAgLjUtLjIyNS41LS41di0xLjVoLTEuNWMtLjI3NiAwLS41LS4yMjQtLjUtLjUgMC0uODI3LS42NzMtMS41LTEuNS0xLjVzLTEuNS42NzMtMS41IDEuNWMwIC4yNzYtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTEzLjUgOWgtMTBjLS4yNzYgMC0uNS0uMjI0LS41LS41cy4yMjQtLjUuNS0uNWgxMGMuMjc2IDAgLjUuMjI0LjUuNXMtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTEzLjUgMTJoLTEwYy0uMjc2IDAtLjUtLjIyNC0uNS0uNXMuMjI0LS41LjUtLjVoMTBjLjI3NiAwIC41LjIyNC41LjVzLS4yMjQuNS0uNS41eiIvPjxwYXRoIGQ9Im0xMy41IDE1aC0xMGMtLjI3NiAwLS41LS4yMjQtLjUtLjVzLjIyNC0uNS41LS41aDEwYy4yNzYgMCAuNS4yMjQuNS41cy0uMjI0LjUtLjUuNXoiLz48L3N2Zz4=" />
+            <h1>Give us the details</h1>
         </div>
-        
-    </form>
+        <form action="" method="POST"  novalidate>
+            {% csrf_token %}
+    
+            {% for hidden_field in form.hidden_fields %}
+                {{ hidden_field }}
+            {% endfor %}
+    
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
+    
+            {% for field in form.visible_fields %}
+                <div class="form-group">
+                {{ field.label_tag }}
+    
+                {% if form.is_bound %}
+                    {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                    {% for error in field.errors %}
+                        <div class="invalid-feedback">
+                        {{ error }}
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                {% else %}
+                    {% render_field field class="form-control" %}
+                {% endif %}
+    
+                {% if field.help_text %}
+                    <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+                </div>
+            {% endfor %}
+            <div class="text-center" style="margin-top: 70px;">
+                <button type="submit" class="btn btn-danger btn-lg">Add Photos ></button>
+            </div>
+            
+        </form>
+    </div>
+    
 </body>
 </html>
