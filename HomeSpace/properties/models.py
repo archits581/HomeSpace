@@ -20,28 +20,35 @@ furnished_choices = [
 
 class City(models.Model):
     name = models.CharField(blank=False, max_length=30)
+    
+    def __str__(self):
+        return self.name
 
 class Locality(models.Model):
     name = models.CharField(blank=False, max_length=30)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 class PropertyDescription(models.Model):
     apartment_number = models.CharField(blank=False, max_length=7)
     building = models.CharField(blank=False, max_length=255)
-    locality = models.ForeignKey(Locality, on_delete=models.CASCADE)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    locality = models.ForeignKey(Locality, on_delete=models.CASCADE, blank=False)
+    city = models.ForeignKey(City, on_delete=models.CASCADE, blank=False)
     description = models.TextField(blank=False, max_length=1000)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    cover_pic = models.ImageField(blank=False, upload_to='photos/cover')
-    price = models.IntegerField(validators=[MinValueValidator(2000), MaxValueValidator(100000)])
-    tenant_type = models.CharField(max_length=30, choices=tenant_choices)
-    deposit = models.IntegerField(validators=[MinValueValidator(1000), MaxValueValidator(1000000)])
-    furnished = models.CharField(max_length=30, choices=furnished_choices)
-    club_house = models.BooleanField()
-    swimming_pool = models.BooleanField()
-    security = models.BooleanField()
-    ac = models.BooleanField()
-    gym = models.BooleanField()
-    lift = models.BooleanField()
-    play_area = models.BooleanField()
-    internet_services = models.BooleanField()
+    rent = models.IntegerField(blank=False, validators=[MinValueValidator(2000), MaxValueValidator(100000)])
+    negotiable = models.BooleanField(blank=False, default=True)
+    tenant_type = models.CharField(max_length=30, choices=tenant_choices, blank=False)
+    deposit = models.IntegerField(blank=False ,validators=[MinValueValidator(1000), MaxValueValidator(1000000)])
+    furnished = models.CharField(blank=False, max_length=30, choices=furnished_choices)
+    bhk = models.IntegerField(blank=False, validators=[MinValueValidator(1), MaxValueValidator(6)], default=1)
+    club_house = models.BooleanField(blank=False, default=False)
+    swimming_pool = models.BooleanField(blank=False, default=False)
+    security = models.BooleanField(blank=False, default=False)
+    ac = models.BooleanField(blank=False, default=False)
+    gym = models.BooleanField(blank=False, default=False)
+    lift = models.BooleanField(blank=False, default=False)
+    play_area = models.BooleanField(blank=False, default=False)
+    internet_services = models.BooleanField(blank=False, default=False)
