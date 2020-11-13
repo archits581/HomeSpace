@@ -43,7 +43,7 @@ class PropertyDescription(models.Model):
     tenant_type = models.CharField(max_length=30, choices=tenant_choices, blank=False)
     deposit = models.IntegerField(blank=False ,validators=[MinValueValidator(1000), MaxValueValidator(1000000)])
     furnished = models.CharField(blank=False, max_length=30, choices=furnished_choices)
-    bhk = models.IntegerField(blank=False, validators=[MinValueValidator(1), MaxValueValidator(6)], default=1)
+    bhk = models.PositiveSmallIntegerField(blank=False, validators=[MinValueValidator(1), MaxValueValidator(6)], default=1)
     club_house = models.BooleanField(blank=False, default=False)
     swimming_pool = models.BooleanField(blank=False, default=False)
     security = models.BooleanField(blank=False, default=False)
