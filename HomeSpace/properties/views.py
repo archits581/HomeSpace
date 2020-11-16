@@ -3,6 +3,7 @@ from .forms import PropertyDescriptionForm
 from .models import PropertyDescription
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 
@@ -24,3 +25,12 @@ def createPropertyView(request):
 def homePage(request):
     return render(request, 'base.html', {})
 
+def add_property_photos(request):
+    return render(request, 'properties/add_photos.html', {})
+
+def add_property_photos_util(request):
+    if request.method == 'POST':
+        image_file = request.FILES.get('file')
+
+        return HttpResponse('')
+    return JsonResponse({'post': 'false'})
