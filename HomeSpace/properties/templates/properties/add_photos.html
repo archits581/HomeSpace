@@ -6,14 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
     <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
+    <script src="{% static 'js/dropzone/dropzone.js' %}"></script>
     <title>Document</title>
 </head>
 <body>
-    <form action="image_upload/{{pk}}" method="POST" class="dropzone dz">
+    <form action="image_upload/{{pk}}" method="POST" class="dropzone dz" id="my-dropzone">
         {% csrf_token %}
         <div class="fallback">
           <input name="file" type="file" multiple />
         </div>
-      </form>
+    </form>
 </body>
 </html>
