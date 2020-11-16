@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="{% static 'js/dropzone.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/dropzone.css' %}">
+    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
     <title>Document</title>
 </head>
 <body>
-    <form action="image-upload" method="POST" class="dropzone dz">
+    <form action="image_upload/{{pk}}" method="POST" class="dropzone dz">
         {% csrf_token %}
         <div class="fallback">
           <input name="file" type="file" multiple />
