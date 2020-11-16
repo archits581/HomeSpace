@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PropertyDescriptionForm
-from .models import PropertyDescription, PropertyImage
+from .forms import PropertyDescriptionForm, CoverPhotoForm
+from .models import PropertyDescription, PropertyImage, CoverPhoto
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -39,5 +39,21 @@ def add_property_photos_util(request, pk):
             PropertyImage.objects.create(image=image_file, property=property_object)
         except PropertyDescription.DoesNotExist:
             raise Http404('Property does not exist')
-        return HttpResponse('')
+        return HttpResponseRedirect(reverse('properties:add-cover-photo', args=(pk,)))
     return JsonResponse({'post': 'false'})
+
+def add_cover_photo(request, pk):
+    if request.method == 'POST':
+        form = CoverPhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            try:
+                cover_photo_object = form.save(commit=False)
+                property_object = PropertyDescription.objects.get(pk=pk)
+                cover_photo_object.property = property_object
+                cover_photo_object.save()
+            except PropertyDescription.DoesNotExist:
+                raise Http404('Property does not exist')
+            return HttpResponse('Cover Photo added successfully')
+    else:
+        form = CoverPhotoForm()
+    return render(request, 'properties/add_cover_photos.html', {'form': form})

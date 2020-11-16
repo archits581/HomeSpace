@@ -56,3 +56,7 @@ class PropertyDescription(models.Model):
 class PropertyImage(models.Model):
     property = models.ForeignKey(PropertyDescription, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='property_image/')
+
+class CoverPhoto(models.Model):
+    property = models.ForeignKey(PropertyDescription, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='property_cover/')
