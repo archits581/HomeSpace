@@ -23,7 +23,7 @@ class CoverPhotoForm(forms.ModelForm):
 
     class Meta:
         model = CoverPhoto
-        fields = ('image', 'x', 'y', 'width', 'height', )
+        fields = ('file', 'x', 'y', 'width', 'height', )
         exclude = ['property']
 
     def save(self):

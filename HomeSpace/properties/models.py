@@ -59,4 +59,4 @@ class PropertyImage(models.Model):
 
 class CoverPhoto(models.Model):
     property = models.ForeignKey(PropertyDescription, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='property_cover/')
+    file = models.ImageField(upload_to='property_cover/')
