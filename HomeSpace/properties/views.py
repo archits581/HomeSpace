@@ -42,18 +42,32 @@ def add_property_photos_util(request, pk):
         return HttpResponseRedirect(reverse('properties:add-cover-photo', args=(pk,)))
     return JsonResponse({'post': 'false'})
 
+# def add_cover_photo(request, pk):
+#     if request.method == 'POST':
+#         form = CoverPhotoForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             try:
+#                 cover_photo_object = form.save(commit=False)
+#                 property_object = PropertyDescription.objects.get(pk=pk)
+#                 cover_photo_object.property = property_object
+#                 cover_photo_object.save()
+#             except PropertyDescription.DoesNotExist:
+#                 raise Http404('Property does not exist')
+#             return HttpResponse('Cover Photo added successfully')
+#     else:
+#         form = CoverPhotoForm()
+#     return render(request, 'properties/add_cover_photos.html', {'form': form, 'pk': pk})
+
 def add_cover_photo(request, pk):
-    if request.method == 'POST':
-        form = CoverPhotoForm(request.POST, request.FILES)
-        if form.is_valid():
-            try:
-                cover_photo_object = form.save(commit=False)
-                property_object = PropertyDescription.objects.get(pk=pk)
-                cover_photo_object.property = property_object
-                cover_photo_object.save()
-            except PropertyDescription.DoesNotExist:
-                raise Http404('Property does not exist')
-            return HttpResponse('Cover Photo added successfully')
-    else:
-        form = CoverPhotoForm()
-    return render(request, 'properties/add_cover_photos.html', {'form': form})
+    form = CoverPhotoForm(request.POST or None, request.FILES or None)
+    if form.is_valid():
+        try:
+            print("yes")
+            cover_photo_object = form.save(commit=False)
+            property_object = PropertyDescription.objects.get(pk=pk)
+            cover_photo_object.property = property_object
+            cover_photo_object.save()
+        except PropertyDescription.DoesNotExist:
+            raise Http404('Property does not exist')
+        return HttpResponse('Cover Photo added successfully')
+    return render(request, 'properties/add_cover_photos.html', {'form': form, 'pk': pk})
