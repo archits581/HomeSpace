@@ -4,17 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
-    <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
-    <script src="{% static 'js/dropzone/dropzone.js' %}"></script>
     <title>Document</title>
+
+
 </head>
 <body>
-    <form action="image_upload/{{pk}}" method="POST" class="dropzone dz" id="my-dropzone">
-        {% csrf_token %}
-        <div class="fallback">
-          <input name="file" type="file" multiple />
-        </div>
+    <h1>Add Photos of your property</h1>
+    <form action="" enctype="multipart/form-data" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Submit">
     </form>
 </body>
 </html>

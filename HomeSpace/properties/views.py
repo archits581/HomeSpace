@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PropertyDescriptionForm, CoverPhotoForm
-from .models import PropertyDescription, PropertyImage, CoverPhoto
+from .forms import PropertyDescriptionForm, PropertyImagesForm
+from .models import PropertyDescription, PropertyImage
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -20,7 +20,7 @@ def createPropertyView(request):
             property_object.user=owner
             property_object.save()
             pk = property_object.pk
-            return HttpResponseRedirect(reverse('properties:add-photos', args=(pk,)))
+            return HttpResponseRedirect(reverse('properties:add-images', args=(pk,)))
     else:
         form = PropertyDescriptionForm()
     return render(request, 'properties/add.html', {'form': form})
@@ -28,46 +28,21 @@ def createPropertyView(request):
 def homePage(request):
     return render(request, 'base.html', {})
 
-def add_property_photos(request, pk):
-    return render(request, 'properties/add_photos.html', {'pk': pk})
+@login_required()
+def add_property_images(request, pk):
+    if request.method == "POST":
+        form = PropertyImagesForm(request.POST, request.FILES)   
+        if form.is_valid():
+            try:
+                print("testing");
+                image = form.save(commit = False)
+                property_object = PropertyDescription.objects.get(pk=pk)
+                image.property = property_object
+                image.save()
+                return HttpResponseRedirect(reverse('properties:add-images', args=(pk,)))
+            except PropertyDescription.DoesNotExist:
+                raise Http404('Property does not exist')
+    else:
+        form = PropertyImagesForm()
+    return render(request, 'properties/add_photos.html', {'form': form})
 
-def add_property_photos_util(request, pk):
-    if request.method == 'POST':
-        image_file = request.FILES.get('file')
-        try:
-            property_object = PropertyDescription.objects.get(pk=pk)
-            PropertyImage.objects.create(image=image_file, property=property_object)
-        except PropertyDescription.DoesNotExist:
-            raise Http404('Property does not exist')
-        return HttpResponseRedirect(reverse('properties:add-cover-photo', args=(pk,)))
-    return JsonResponse({'post': 'false'})
-
-# def add_cover_photo(request, pk):
-#     if request.method == 'POST':
-#         form = CoverPhotoForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             try:
-#                 cover_photo_object = form.save(commit=False)
-#                 property_object = PropertyDescription.objects.get(pk=pk)
-#                 cover_photo_object.property = property_object
-#                 cover_photo_object.save()
-#             except PropertyDescription.DoesNotExist:
-#                 raise Http404('Property does not exist')
-#             return HttpResponse('Cover Photo added successfully')
-#     else:
-#         form = CoverPhotoForm()
-#     return render(request, 'properties/add_cover_photos.html', {'form': form, 'pk': pk})
-
-def add_cover_photo(request, pk):
-    form = CoverPhotoForm(request.POST or None, request.FILES or None)
-    if form.is_valid():
-        try:
-            print("yes")
-            cover_photo_object = form.save(commit=False)
-            property_object = PropertyDescription.objects.get(pk=pk)
-            cover_photo_object.property = property_object
-            cover_photo_object.save()
-        except PropertyDescription.DoesNotExist:
-            raise Http404('Property does not exist')
-        return HttpResponse('Cover Photo added successfully')
-    return render(request, 'properties/add_cover_photos.html', {'form': form, 'pk': pk})
