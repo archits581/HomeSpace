@@ -46,3 +46,7 @@ def add_property_images(request, pk):
         form = PropertyImagesForm()
     return render(request, 'properties/add_photos.html', {'form': form})
 
+
+@login_required()
+def add_location(request, pk):
+    return render(request, 'properties/add_location.html', {})

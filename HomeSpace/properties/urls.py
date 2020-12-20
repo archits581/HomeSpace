@@ -7,4 +7,5 @@ app_name = 'properties'
 urlpatterns = [
     path('add/', views.createPropertyView, name='add'),
     path('add_photos/<int:pk>', views.add_property_images, name='add-images'),
+    path('add_location/<int:pk>', views.add_location, name="add-location"),    
 ]
