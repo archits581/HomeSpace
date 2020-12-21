@@ -15,13 +15,32 @@
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
     <div id="mapid" style="width: 600px; height: 400px;"></div>
-    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    
+    <a class="btn btn-outline-success disabled" role="button" id="submit" onclick="sendCoords()">Complete Process <span>&#8594</span></a>
+    
+    
+    <!-- <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script> -->
+
+    <!-- BOOTSTRAP JQUERY AND JAVASCRIPT -->
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     
+     
+     <!-- SCRIPT FOR MANIPULATING MAP -->
      <script>
          //Initializing the map
          var mymap = L.map('mapid').setView([51.505, -0.09], 13);
+         //MAPBOX Tiles
          L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 18,
@@ -31,17 +50,56 @@
             accessToken: 'pk.eyJ1IjoiYXJjaGl0czU4MSIsImEiOiJja2l4a29pdDkxNDd5MzBtZWc1bWVlcXI3In0.u51pVkC31mtgojLDY69ZVQ'
         }).addTo(mymap);
 
+
+        //Other Tiles
+        // L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png', {
+        //     maxZoom: 20,
+        //     attribution: '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+        // }).addTo(mymap);
+
+        // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        // }).addTo(mymap);
+
         //Adding marker on click
         var allMarkers = {}
         function onMapClick(event){
-            lat = event.latlng.lat;
-            long = event.latlng.lng;
+            var lat = event.latlng.lat;
+            var long = event.latlng.lng;
             if(allMarkers != undefined){
                 mymap.removeLayer(allMarkers);
             }
             allMarkers = L.marker([lat,long]).addTo(mymap);
+            var submitButton = document.getElementById('submit');
+            submitButton.classList.remove('disabled');
         }
-        mymap.on('click', onMapClick)
+        mymap.on('click', onMapClick);
+
+        function sendCoords(event){
+            var latLong = allMarkers.getLatLng();
+            console.log(latLong)
+            var latitude = latLong.lat;
+            var longitude = latLong.lng;
+            $.ajax({
+                type: "POST",
+                url: "{% url 'properties:ajax-add-location' pk=primary_key %}",
+                // dataType='json',
+
+                data:{
+                    'latitude': latitude,
+                    'longitude': longitude,
+                    'csrfmiddlewaretoken': "{{ csrf_token }}"
+                },
+                // dataType='json',
+                success: function(){
+                    window.location.href = "{% url 'properties:my' %}";
+                },
+                error: function(){
+                    alert("error occured");
+                }
+            });
+        }
+
 
      </script>
 

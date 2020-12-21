@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PropertyDescriptionForm, PropertyImagesForm
-from .models import PropertyDescription, PropertyImage
+from .models import PropertyDescription, PropertyImage, Location
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -49,4 +49,24 @@ def add_property_images(request, pk):
 
 @login_required()
 def add_location(request, pk):
-    return render(request, 'properties/add_location.html', {})
+    property_object = PropertyDescription.objects.get(pk=pk)
+    if not property_object.location:
+        return render(request, 'properties/add_location.html', {'primary_key':pk})
+    return HttpResponse('You have already selected a location')
+
+@login_required()
+def ajax_add_location(request, pk):
+    property_object = PropertyDescription.objects.get(pk=pk)
+    if request.is_ajax and request.method == "POST":
+        latitude = request.POST['latitude']
+        longitude = request.POST['longitude']
+        location_object = Location(property=property_object, lat=latitude, long=longitude)
+        location_object.save()
+        return JsonResponse({"message": "success"}, status=200)
+    
+    return JsonResponse({"error":"some error occured"}, status=400)
+
+
+@login_required()
+def my_properties(request):
+    return HttpResponse("successful")
