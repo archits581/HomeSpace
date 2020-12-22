@@ -26,7 +26,7 @@ def createPropertyView(request):
     return render(request, 'properties/add.html', {'form': form})
 
 def homePage(request):
-    return render(request, 'base.html', {})
+    return render(request, 'properties/landing.html', {})
 
 @login_required()
 def add_property_images(request, pk):
