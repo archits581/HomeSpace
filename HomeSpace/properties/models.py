@@ -52,6 +52,7 @@ class PropertyDescription(models.Model):
     lift = models.BooleanField(blank=False, default=False)
     play_area = models.BooleanField(blank=False, default=False)
     internet_services = models.BooleanField(blank=False, default=False)
+    interested = models.ManyToManyField(User, related_name='interested')
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(PropertyDescription, on_delete=models.CASCADE)
