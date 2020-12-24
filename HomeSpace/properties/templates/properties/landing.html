@@ -15,7 +15,7 @@
 
     <!-- ROBOTO FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;900&display=swap" rel="stylesheet">
 {% endblock %}
 
 
@@ -76,21 +76,60 @@
       <div class="container-cards">
         <div class="inner-container-cards container">
           <div class="info-card">
-
+            <div class="icon-container">
+              <img src="{% static 'img/prohibition.png' %}" alt="no broker icon" width=90 class="info-icons">
+            </div>
+            <div class="info-content">
+              <h4 class="info-content-title">No Brokers</h4>
+              <p>Hassle free home search without involving brokers</p>
+            </div>
           </div>
           <div class="info-card">
-            
+            <div class="icon-container">
+              <img src="{% static 'img/maps-and-flags.png' %}" alt="map marker icon" width=90 class="info-icons">
+            </div>
+            <div class="info-content">
+              <h4 class="info-content-title">Search Locations Using Maps</h4>
+              <p>Search homes in proximity to your workplace using our maps</p>
+            </div>
           </div>
           <div class="info-card">
-            
+            <div class="icon-container">
+              <img src="{% static 'img/files.png' %}" alt="free listing icon" width=90 class="info-icons">
+            </div>
+            <div class="info-content">
+              <h4 class="info-content-title">Free Listings</h4>
+              <p>List your property on our website through a simple procedure and find buyers and tenants</p>
+            </div>
           </div>
           <div class="info-card">
-            
+            <div class="icon-container">
+              <img src="{% static 'img/save-money.png' %}" alt="save money icon" width=90 class="info-icons">
+            </div>
+            <div class="info-content">
+              <h4 class="info-content-title">Save Money</h4>
+              <p>Save money that you used to spend on brokers for finding homes</p>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- FOOTER -->
+      <footer>
+        <div class="footer-container">
+          <div class="footer-title">
+            <h5>Made with &#x2764 by Archit Shinde</h5>
+          </div>
+          <div class="footer-images">
+            <a href="https://github.com/archits581"><img src="https://img.icons8.com/color/48/000000/github--v1.png"/></a>
+            <a><img src="https://img.icons8.com/color/48/000000/facebook-circled--v2.png"/></a>
+            <a><img src="https://img.icons8.com/color/48/000000/twitter-circled--v2.png"/></a>
+            <a href="https://www.linkedin.com/in/archits581/"><img src="https://img.icons8.com/color/48/000000/linkedin-circled--v2.png"/></a>
+            <a><img src="https://img.icons8.com/color/48/000000/play-button-circled--v2.png"/></a>
+            <a><img src="https://img.icons8.com/color/48/000000/instagram-new.png"/></a>
+          </div>
+        </div>
+      </footer>
 
 {% endblock %}
 
