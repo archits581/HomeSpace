@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
+from .filters import PropertyFilters
 
 # Create your views here.
 
@@ -70,3 +71,20 @@ def ajax_add_location(request, pk):
 @login_required()
 def my_properties(request):
     return HttpResponse("successful")
+
+
+
+def search_property(request):
+    context = {}
+    context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all())
+    context['query_set'] = []
+
+    for i in range(0, len(context['filter'].qs)):
+        if context['filter'].qs[i].propertyimage_set.count() != 0:
+            context['query_set'].append(context['filter'].qs[i])
+            # print(context['query_set'][0].propertyimage_set.all())
+    # print(context['filter'])
+    # for i in range (len(context['filter'].qs)):
+        # print(context['filter'].qs[i])
+        # print(context['filter'].qs[i].propertyimage_set.all()[0])
+    return render(request, 'properties/search.html', context)

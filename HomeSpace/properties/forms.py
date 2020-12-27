@@ -12,14 +12,6 @@ class PropertyDescriptionForm(forms.ModelForm):
         model = PropertyDescription
         exclude = ['user']
     
-    # def __init__(self, *args, **kwargs):
-
-
-# class CoverPhotoForm(forms.ModelForm):
-#     class Meta:
-#         model = CoverPhoto
-#         exclude = ['property']
-#         fields = ('file',)
 
 class PropertyImagesForm(forms.ModelForm):
     

@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="get">
+        <!-- {{ filter.form.as_p }} -->
+        <label for="id_rent__lt">Budget</label>
+        {{ filter.form.rent__lt }}
+        <input type="submit" />
+    </form>
+    {% for obj in query_set %}
+        {{ obj.propertyimage_set.all.first.image.url }}
+        <!-- {% for image in obj.propertyimage_set.all %}
+            {{ image.image.url }}
+        {% endfor %} -->
+        <br>
+        {{ obj.pk }} - ${{ obj.rent }}<br />
+    {% endfor %}
+</body>
+</html>
