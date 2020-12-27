@@ -10,5 +10,4 @@ class PropertyFilters(django_filters.FilterSet):
                   'tenant_type': ['exact'], 
                   'furnished':['exact'], 
                   'locality':['exact'], 
-                  'city':['exact'],
                   }

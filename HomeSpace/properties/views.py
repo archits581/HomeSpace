@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PropertyDescriptionForm, PropertyImagesForm
-from .models import PropertyDescription, PropertyImage, Location
+from .models import PropertyDescription, PropertyImage, Location, Locality, City
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -75,16 +75,22 @@ def my_properties(request):
 
 
 def search_property(request):
+    
     context = {}
-    context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all())
-    context['query_set'] = []
+    context['localities'] = Locality.objects.all()
 
-    for i in range(0, len(context['filter'].qs)):
-        if context['filter'].qs[i].propertyimage_set.count() != 0:
-            context['query_set'].append(context['filter'].qs[i])
-            # print(context['query_set'][0].propertyimage_set.all())
-    # print(context['filter'])
-    # for i in range (len(context['filter'].qs)):
-        # print(context['filter'].qs[i])
-        # print(context['filter'].qs[i].propertyimage_set.all()[0])
+    if not request.GET:
+        return render(request, 'properties/search.html', context)
+    else:
+        context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all())
+        context['query_set'] = []
+
+        for i in range(0, len(context['filter'].qs)):
+            if context['filter'].qs[i].propertyimage_set.count() != 0:
+                context['query_set'].append(context['filter'].qs[i])
+                # print(context['query_set'][0].propertyimage_set.all())
+                # print(context['filter'])
+                # for i in range (len(context['filter'].qs)):
+                # print(context['filter'].qs[i])
+                # print(context['filter'].qs[i].propertyimage_set.all()[0])
     return render(request, 'properties/search.html', context)
