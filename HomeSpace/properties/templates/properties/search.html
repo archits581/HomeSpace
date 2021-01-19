@@ -11,8 +11,7 @@
 
     <!-- INTER FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700;900&display=swap" rel="stylesheet">
     <!-- ROBOTO FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;900&display=swap" rel="stylesheet">
@@ -83,7 +82,7 @@
         <select name="locality" id="id_locality" class="form-control"> 
             <option value="">------------</option>         
             {% for locality in localities %}
-            <option value="{{ locality.pk }}">{{ locality.name }}</option>
+            <option value="{{ locality.pk }}">{{ locality.name|title }}</option>
             {% endfor %}
         </select>
         
@@ -100,13 +99,59 @@
 
 {% if query_set %}
 
-  <div class="container results-container">
+<div class="container">
+  <div class="results-container">
     <div class="results-title">
         <h1>Search Results</h1>
     </div>
 
+    <div class="cards-container container">
+      {% for obj in query_set %}
+        <div class="result-card">
+
+          <!-- Div for image -->
+          <div class="image-container">
+            <img src="{{ obj.propertyimage_set.all.first.image.url }}" alt="{{ obj.pk }} image" class="result-image-contain">
+          </div>
+
+          <!-- Div for information -->
+          <div class="info-container">
+            <p class="property-short-info">{{ obj.bhk }} apartment in {{ obj.locality|title }}</p>
+            <h3 class="society-name">{{ obj.building|title }}</h3>
+            <br>
+            <p class="features">&#8226;{{ obj.furnished }} 
+              
+              {% if obj.play_area %}
+              &#8226;Children's play area
+              {% endif %} 
+              
+              {% if obj.lift %}
+              &#8226;Elevator
+              {% endif %}
+              
+              {% if obj.gym %}
+              &#8226;Gym
+              {% endif %}
+              
+              {% if obj.club_house %}
+              &#8226;Club House
+              {% endif %}
+
+              &#8226;For {{obj.tenant_type}}
+            </p>
+            <div class="info-button-container">
+              <p class="property-info-rent">&#8377;{{ obj.rent }}/month</p>
+              <a href="#" class="shortlist-property-btn">Shortlist</a>
+              <a href="#" class="view-property-btn">View</a>
+            </div>
+          </div>
+        
+        </div>
+      {% endfor %}
+    </div>
+
     
-    <div class="image-container container">
+    <!-- <div class="image-container container">
       {% for obj in query_set %}
       <div class="result-card">
         <div class="result-image-container">
@@ -122,7 +167,7 @@
         </div>
       </div>
       {% endfor %}
-    </div>
+    </div> -->
 
     <!-- {% for obj in query_set %}
     {{ obj.propertyimage_set.all.first.image.url }}
@@ -133,7 +178,7 @@
   
 {% endif %}
 
-
+</div>
 
 
 
