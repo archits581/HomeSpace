@@ -52,7 +52,6 @@ class PropertyDescription(models.Model):
     lift = models.BooleanField(blank=False, default=False)
     play_area = models.BooleanField(blank=False, default=False)
     internet_services = models.BooleanField(blank=False, default=False)
-    interested = models.ManyToManyField(User, related_name='interested')
 
 class PropertyImage(models.Model):
     property = models.ForeignKey(PropertyDescription, on_delete=models.CASCADE)
@@ -62,3 +61,8 @@ class Location(models.Model):
     property = models.OneToOneField(PropertyDescription, on_delete=models.CASCADE)
     lat = models.DecimalField(max_digits=22, decimal_places=16)
     long = models.DecimalField(max_digits=22, decimal_places=16)
+
+class ShortlistedProperty(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    property = models.ForeignKey(PropertyDescription, on_delete=models.CASCADE)
+
