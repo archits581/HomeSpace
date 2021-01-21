@@ -1,17 +1,253 @@
+{% load static %}
 {% load widget_tweaks %}
 
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+
+{% block styles %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/add.css' %}">
+
+    <!-- POPPINS FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <!-- INTER FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- ROBOTO FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;900&display=swap" rel="stylesheet">
+
+    <!-- Title -->
     <title>HomeSpace-Add Property</title>
+
+{% endblock %}
+
 </head>
 <body>
-    <div class="container" style="width: 90%; margin-top: 50px; margin-bottom: 60px; box-shadow: 3px 3px 10px 0px #888888; padding: 40px; border-radius: 10px; ">
+
+{% block content %}
+
+    <!-- NAVBAR -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="#" id="brand-logo">Home<span class="custom-logo">Space</span></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Features</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Pricing</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#" id="signup">Sign Up</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+    <div class="container add-form-container">
+        <div class="text-center form-title">
+            <img width="100" src="data:image/svg+xml;base64,PHN2ZyBpZD0iX3gzMV8iIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0xMS44OTQgMjRjLS4xMzEgMC0uMjU5LS4wNTItLjM1NC0uMTQ2LS4xMTgtLjExOC0uMTctLjI4OC0uMTM3LS40NTFsLjcwNy0zLjUzNWMuMDItLjA5OC4wNjYtLjE4Ny4xMzctLjI1Nmw3Ljc3OC03Ljc3OGMuNTg0LS41ODQgMS41MzctLjU4NCAyLjEyMSAwbDEuNDE0IDEuNDE0Yy41ODUuNTg1LjU4NSAxLjUzNiAwIDIuMTIxbC03Ljc3OCA3Ljc3OGMtLjA2OS4wNy0uMTU4LjExNy0uMjU2LjEzN2wtMy41MzUuNzA3Yy0uMDMyLjAwNi0uMDY1LjAwOS0uMDk3LjAwOXptMS4xNjgtMy43ODktLjUzIDIuNjUxIDIuNjUxLS41MyA3LjY3MS03LjY3MWMuMTk1LS4xOTUuMTk1LS41MTIgMC0uNzA3bC0xLjQxNC0xLjQxNGMtLjE5NS0uMTk1LS41MTItLjE5NS0uNzA3IDB6bTIuMzY3IDIuNTgyaC4wMXoiLz48cGF0aCBkPSJtOS41IDIxaC03Yy0xLjM3OSAwLTIuNS0xLjEyMS0yLjUtMi41di0xM2MwLTEuMzc5IDEuMTIxLTIuNSAyLjUtMi41aDJjLjI3NiAwIC41LjIyNC41LjVzLS4yMjQuNS0uNS41aC0yYy0uODI3IDAtMS41LjY3My0xLjUgMS41djEzYzAgLjgyNy42NzMgMS41IDEuNSAxLjVoN2MuMjc2IDAgLjUuMjI0LjUuNXMtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTE2LjUgMTJjLS4yNzYgMC0uNS0uMjI0LS41LS41di02YzAtLjgyNy0uNjczLTEuNS0xLjUtMS41aC0yYy0uMjc2IDAtLjUtLjIyNC0uNS0uNXMuMjI0LS41LjUtLjVoMmMxLjM3OSAwIDIuNSAxLjEyMSAyLjUgMi41djZjMCAuMjc2LS4yMjQuNS0uNS41eiIvPjxwYXRoIGQ9Im0xMS41IDZoLTZjLS44MjcgMC0xLjUtLjY3My0xLjUtMS41di0yYzAtLjI3Ni4yMjQtLjUuNS0uNWgxLjU1Yy4yMzItMS4xNCAxLjI0My0yIDIuNDUtMnMyLjIxOC44NiAyLjQ1IDJoMS41NWMuMjc2IDAgLjUuMjI0LjUuNXYyYzAgLjgyNy0uNjczIDEuNS0xLjUgMS41em0tNi41LTN2MS41YzAgLjI3NS4yMjUuNS41LjVoNmMuMjc1IDAgLjUtLjIyNS41LS41di0xLjVoLTEuNWMtLjI3NiAwLS41LS4yMjQtLjUtLjUgMC0uODI3LS42NzMtMS41LTEuNS0xLjVzLTEuNS42NzMtMS41IDEuNWMwIC4yNzYtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTEzLjUgOWgtMTBjLS4yNzYgMC0uNS0uMjI0LS41LS41cy4yMjQtLjUuNS0uNWgxMGMuMjc2IDAgLjUuMjI0LjUuNXMtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTEzLjUgMTJoLTEwYy0uMjc2IDAtLjUtLjIyNC0uNS0uNXMuMjI0LS41LjUtLjVoMTBjLjI3NiAwIC41LjIyNC41LjVzLS4yMjQuNS0uNS41eiIvPjxwYXRoIGQ9Im0xMy41IDE1aC0xMGMtLjI3NiAwLS41LS4yMjQtLjUtLjVzLjIyNC0uNS41LS41aDEwYy4yNzYgMCAuNS4yMjQuNS41cy0uMjI0LjUtLjUuNXoiLz48L3N2Zz4=" />
+            <h1>Give us the details</h1>
+        </div>
+
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+                </div>
+            {% endif %}
+
+
+            <div class="form-row">
+                <div class="col-md-4 mb-10">
+                    <label for="">Apartment Number:</label>
+                    <input type="text" required class="form-control" id="id_apartment_number" maxlength="7" name="apartment_number">
+                    <div class="invalid-feedback">
+                        Please fill in apartment number.
+                    </div>
+                </div>
+                <div class="col-md-8 mb-10">
+                    <label for="">Building:</label>
+                    <input type="text" required class="form-control" id="id_building" maxlength="255" name="building">
+                    <div class="invalid-feedback">
+                        Please fill in the building or society name.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6 mb-10">
+                    <label for="">City:</label>
+                    <select name="city" id="id_city" required class="form-control">
+                        <option value="1">Mumbai</option>
+                        <option value="2">Bangalore</option>
+                        <option value="3">Delhi</option>
+                        <option value="4">Hyderabad</option>
+                        <option value="5">Pune</option>
+                        <option value="6">Chennai</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please fill in the City
+                    </div>
+                </div>
+                <div class="col-md-6 mb-10">
+                    <label for="">City:</label>
+                    <select name="locality" id="id_locality" required class="form-control">
+                        <option value="1">Andheri</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please fill in the Locality
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label for="">Description</label>
+                <textarea name="description" id="id_description" cols="40" rows="10" class="form-control" required></textarea>
+                <div class="invalid-feedback">
+                    Please fill in the Description
+                </div>
+            </div>
+
+
+            <div class="form-row mb-30">
+                <div class="col-md-4">
+                    <label for="">Rent:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">&#8377;</span>
+                        </div>
+                        <input type="number" name="rent" id="id_rent" class="form-control" required>
+                        <div class="invalid-feedback">
+                            This is a required field!
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="col-md-4">
+                    <label for="">Deposit:</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupPrepend">&#8377;</span>
+                        </div>
+                        <input type="number" name="deposit" id="id_deposit" class="form-control" required>
+                    </div>
+                    <div class="invalid-feedback">
+                        This is a required field!
+                    </div>
+                </div>
+
+                <div class="col-md-4 ml-20">
+                    <label for="">Negotiable</label>
+                    <input type="checkbox" name="negotiable" id="id_negotiable" class="form-control">
+                </div>
+
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-4">
+                    <label for="">Tenant type:</label>
+                    <select name="tenant_type" id="id_tenant_type" class="form-control" required>
+                        <option value="Bachelors">Bachelors</option>
+                        <option value="Family Only">Family Only</option>
+                        <option value="Any">Any</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        This is a required field!
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="">Furnished:</label>
+                    <select name="furnished" id="id_furnished" class="form-control" required>
+                        <option value="Unfurnished">Unfurnished</option>
+                        <option value="Semi furnished">Semi furnished</option>
+                        <option value="Furnished">Furnished</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label for="">Bedrooms</label>
+                    <input type="number" required id="id_bhk" name="bhk" class="form-control" value="1" min="0">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="">Club House</label>
+                    <input type="checkbox" id="id_club_house" class="form-control" name="club_house">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="">Swimming Pool</label>
+                    <input type="checkbox" id="id_swimming_pool" class="form-control" name="swimming_pool">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="">Security</label>
+                    <input type="checkbox" id="id_security" class="form-control" name="security">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="">Gym</label>
+                    <input type="checkbox" id="id_gym" class="form-control" name="gym">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="">Elevator</label>
+                    <input type="checkbox" id="id_lift" class="form-control" name="lift">
+                </div>
+
+                <div class="col-md-6">
+                    <label for="">Play Area</label>
+                    <input type="checkbox" id="id_play_area" class="form-control" name="play_area">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="col-md-6">
+                    <label for="" class="form-inline">Internet Services</label>
+                    <input type="checkbox" id="id_internet_services" class="form-control" name="internet_services">
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 70px;">
+                <button type="submit" class="subtmit-button">Add Photos</button>
+            </div>
+
+        </form>
+    </div>
+
+<!--  
+     <div class="container" >
         <div class="text-center">
             <img width="100" src="data:image/svg+xml;base64,PHN2ZyBpZD0iX3gzMV8iIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0IDI0IiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDI0IDI0IiB3aWR0aD0iNTEyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Im0xMS44OTQgMjRjLS4xMzEgMC0uMjU5LS4wNTItLjM1NC0uMTQ2LS4xMTgtLjExOC0uMTctLjI4OC0uMTM3LS40NTFsLjcwNy0zLjUzNWMuMDItLjA5OC4wNjYtLjE4Ny4xMzctLjI1Nmw3Ljc3OC03Ljc3OGMuNTg0LS41ODQgMS41MzctLjU4NCAyLjEyMSAwbDEuNDE0IDEuNDE0Yy41ODUuNTg1LjU4NSAxLjUzNiAwIDIuMTIxbC03Ljc3OCA3Ljc3OGMtLjA2OS4wNy0uMTU4LjExNy0uMjU2LjEzN2wtMy41MzUuNzA3Yy0uMDMyLjAwNi0uMDY1LjAwOS0uMDk3LjAwOXptMS4xNjgtMy43ODktLjUzIDIuNjUxIDIuNjUxLS41MyA3LjY3MS03LjY3MWMuMTk1LS4xOTUuMTk1LS41MTIgMC0uNzA3bC0xLjQxNC0xLjQxNGMtLjE5NS0uMTk1LS41MTItLjE5NS0uNzA3IDB6bTIuMzY3IDIuNTgyaC4wMXoiLz48cGF0aCBkPSJtOS41IDIxaC03Yy0xLjM3OSAwLTIuNS0xLjEyMS0yLjUtMi41di0xM2MwLTEuMzc5IDEuMTIxLTIuNSAyLjUtMi41aDJjLjI3NiAwIC41LjIyNC41LjVzLS4yMjQuNS0uNS41aC0yYy0uODI3IDAtMS41LjY3My0xLjUgMS41djEzYzAgLjgyNy42NzMgMS41IDEuNSAxLjVoN2MuMjc2IDAgLjUuMjI0LjUuNXMtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTE2LjUgMTJjLS4yNzYgMC0uNS0uMjI0LS41LS41di02YzAtLjgyNy0uNjczLTEuNS0xLjUtMS41aC0yYy0uMjc2IDAtLjUtLjIyNC0uNS0uNXMuMjI0LS41LjUtLjVoMmMxLjM3OSAwIDIuNSAxLjEyMSAyLjUgMi41djZjMCAuMjc2LS4yMjQuNS0uNS41eiIvPjxwYXRoIGQ9Im0xMS41IDZoLTZjLS44MjcgMC0xLjUtLjY3My0xLjUtMS41di0yYzAtLjI3Ni4yMjQtLjUuNS0uNWgxLjU1Yy4yMzItMS4xNCAxLjI0My0yIDIuNDUtMnMyLjIxOC44NiAyLjQ1IDJoMS41NWMuMjc2IDAgLjUuMjI0LjUuNXYyYzAgLjgyNy0uNjczIDEuNS0xLjUgMS41em0tNi41LTN2MS41YzAgLjI3NS4yMjUuNS41LjVoNmMuMjc1IDAgLjUtLjIyNS41LS41di0xLjVoLTEuNWMtLjI3NiAwLS41LS4yMjQtLjUtLjUgMC0uODI3LS42NzMtMS41LTEuNS0xLjVzLTEuNS42NzMtMS41IDEuNWMwIC4yNzYtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTEzLjUgOWgtMTBjLS4yNzYgMC0uNS0uMjI0LS41LS41cy4yMjQtLjUuNS0uNWgxMGMuMjc2IDAgLjUuMjI0LjUuNXMtLjIyNC41LS41LjV6Ii8+PHBhdGggZD0ibTEzLjUgMTJoLTEwYy0uMjc2IDAtLjUtLjIyNC0uNS0uNXMuMjI0LS41LjUtLjVoMTBjLjI3NiAwIC41LjIyNC41LjVzLS4yMjQuNS0uNS41eiIvPjxwYXRoIGQ9Im0xMy41IDE1aC0xMGMtLjI3NiAwLS41LS4yMjQtLjUtLjVzLjIyNC0uNS41LS41aDEwYy4yNzYgMCAuNS4yMjQuNS41cy0uMjI0LjUtLjUuNXoiLz48L3N2Zz4=" />
             <h1 style="font-family: 'Montserrat', sans-serif;">Give us the details</h1>
@@ -56,11 +292,39 @@
                 </div>
             {% endfor %}
             <div class="text-center" style="margin-top: 70px;">
-                <button type="submit" class="btn btn-danger btn-lg">Add Photos ></button>
+                <button type="submit" class="btn btn-danger btn-lg">Add Photos </button>
             </div>
             
         </form>
-    </div>
+    </div>  -->
     
+
+
+    
+<!-- FOOTER -->
+<footer>
+    <div class="footer-container">
+      <div class="footer-title">
+        <h5>Made with &#x2764 by Archit Shinde</h5>
+      </div>
+      <div class="footer-images">
+        <a href="https://github.com/archits581"><img src="https://img.icons8.com/color/48/000000/github--v1.png"/></a>
+        <a><img src="https://img.icons8.com/color/48/000000/facebook-circled--v2.png"/></a>
+        <a><img src="https://img.icons8.com/color/48/000000/twitter-circled--v2.png"/></a>
+        <a href="https://www.linkedin.com/in/archits581/"><img src="https://img.icons8.com/color/48/000000/linkedin-circled--v2.png"/></a>
+        <a><img src="https://img.icons8.com/color/48/000000/play-button-circled--v2.png"/></a>
+        <a><img src="https://img.icons8.com/color/48/000000/instagram-new.png"/></a>
+      </div>
+    </div>
+  </footer>
+{% endblock %}
+
+
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
+<!-- 
 </body>
-</html>
+</html> -->
