@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
 from .forms import PropertyDescriptionForm, PropertyImagesForm
 from .models import PropertyDescription, PropertyImage, Location, Locality, City
 from django.urls import reverse
@@ -6,6 +7,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from .filters import PropertyFilters
+
 
 # Create your views here.
 
@@ -51,9 +53,19 @@ def add_property_images(request, pk):
 @login_required()
 def add_location(request, pk):
     property_object = PropertyDescription.objects.get(pk=pk)
-    if not property_object.location:
-        return render(request, 'properties/add_location.html', {'primary_key':pk})
+    lat = 0
+    long = 0
+    try:
+        city = property_object.city.name
+        if city == "Mumbai":
+            lat = 19.0760
+            long = 72.8777
+    
+        property_object.location
+    except ObjectDoesNotExist:
+        return render(request, 'properties/add_location.html', {'primary_key':pk, 'center_lat': lat, 'center_long': long})
     return HttpResponse('You have already selected a location')
+
 
 @login_required()
 def ajax_add_location(request, pk):
