@@ -2,6 +2,28 @@
 {% load static %}
 
 {% block styles %}
+
+    <!-- MAPBOX LEAFLET CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+
+    <!-- MAPBOX LEAFLET JAVASCRIPT -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+    <!-- BOOTSTRAP CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+    <!-- FONT AWESOME KIT CODE -->
+    <script src="https://kit.fontawesome.com/3d6760da32.js" crossorigin="anonymous"></script>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/search.css' %}">
 
@@ -83,15 +105,18 @@
         <select name="locality" id="id_locality" class="form-control"> 
             <option value="">------------</option>         
             {% for locality in localities %}
-            <option value="{{ locality.pk }}">{{ locality.name|title }}</option>
+            <option value="{{ locality.name }}">{{ locality.name|title }}</option>
             {% endfor %}
         </select>
         
         <br><br>
         <!-- {{ filter.form.as_p }} -->
-        <div class="submit-btn">
-            <button class="search-btn" type="submit">Search</button>
+        <div class="submit-btn text-center">
+            <button class="search-btn" type="submit">Search for properties</button>
         </div>
+
+             
+
     </form>
   </div>
   
@@ -104,7 +129,14 @@
   <div class="results-container">
     <div class="results-title">
         <h1>Search Results</h1>
+        <!-- Large modal -->
+              
     </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="modal-btn" data-toggle="modal" data-target="#exampleModal">
+      View Locations on Map <i class="fas fa-map-marker-alt"></i>
+    </button>  
 
     <div class="cards-container container">
       {% for obj in query_set %}
@@ -142,7 +174,7 @@
             </p>
             <div class="info-button-container">
               <p class="property-info-rent">&#8377;{{ obj.rent }}/month</p>
-              <a href="#" class="shortlist-property-btn">Shortlist</a>
+              <a href="#" class="shortlist-property-btn"><i class="far fa-bookmark"></i> Shortlist</a>
               <a href="#" class="view-property-btn">View</a>
             </div>
           </div>
@@ -201,12 +233,71 @@
   </footer>
 
 
+   <!-- BOOTSTRAP MODAL FOR MAP -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Map View</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="container">
+                  <div id="mapid" style="width: 400px; height: 400px; margin: auto;">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
 {% endblock %}
 
 {% block javascript %}
+<!-- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+     -->
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+     <!--Script to manipulate map  -->
+    <script>
+
+
+      var mymap = L.map('mapid', {center: ['{{lat}}', '{{long}}'], zoom: 12});
+      console.log('{{lat}}', '{{long}}')
+         //MAPBOX Tiles
+         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoiYXJjaGl0czU4MSIsImEiOiJja2l4a29pdDkxNDd5MzBtZWc1bWVlcXI3In0.u51pVkC31mtgojLDY69ZVQ'
+        }).addTo(mymap);
+
+        $('body').on('shown.bs.modal', function(e){
+          setTimeout(function(){ mymap.invalidateSize()}, 500);
+        })
+
+
+        $('#mymap').ready(function(e){
+          '{% for obj in query_set %}'
+            marker = new L.marker([ '{{ obj.location.lat }}', '{{ obj.location.long }}']).addTo(mymap)
+          '{% endfor %}'
+        })
+
+
+    </script>
+
 {% endblock %}
 
 <!-- <body>
