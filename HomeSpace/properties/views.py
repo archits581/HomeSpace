@@ -55,16 +55,14 @@ def add_location(request, pk):
     property_object = PropertyDescription.objects.get(pk=pk)
     lat = 0
     long = 0
-    try:
-        city = property_object.city.name
-        if city == "Mumbai":
-            lat = 19.0760
-            long = 72.8777
-    
-        property_object.location
-    except ObjectDoesNotExist:
-        return render(request, 'properties/add_location.html', {'primary_key':pk, 'center_lat': lat, 'center_long': long})
-    return HttpResponse('You have already selected a location')
+
+    if hasattr(property_object, 'location'):
+        return HttpResponse('You have already selected a location')
+    city = property_object.city.name
+    if city == "Mumbai":
+        lat = 19.0760
+        long = 72.8777
+    return render(request, 'properties/add_location.html', {'primary_key':pk, 'center_lat': lat, 'center_long': long})
 
 
 @login_required()
@@ -85,9 +83,7 @@ def my_properties(request):
     return HttpResponse("successful")
 
 
-
-def search_property(request):
-    
+def search_property(request):    
     context = {}
     context['localities'] = Locality.objects.all()
 
