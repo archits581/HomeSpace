@@ -112,3 +112,15 @@ def search_property(request):
                 # print(context['filter'].qs[i].propertyimage_set.all()[0])
         print(context)
     return render(request, 'properties/search.html', context)
+
+
+def view_property(request, pk):
+    property_object = PropertyDescription.objects.get(pk=pk)
+    context = {};
+    context['property'] = property_object;
+    lat = property_object.location.lat
+    long = property_object.location.long
+    context['lat'] = lat
+    context['long'] = long
+    print(lat, long)
+    return render(request, 'properties/view.html', context)
