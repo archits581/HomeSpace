@@ -83,12 +83,12 @@
             <!-- INFO SECTION -->
             <div class="desc-container">
                 <div class="property-description">
-                    <h3>Description</h3>
+                    <h4>Description</h4>
                     <p>{{ property.description }}</p>
                 </div>
 
                 <div class="facilities">
-                    <h3>Amenities</h3>
+                    <h4>Amenities</h4>
 
                     <div class="item-container">
                         {% if property.furnished == 'Furnished' or property.furnished == 'Semi Furnished' %}
@@ -136,8 +136,19 @@
                             <p>Elevator</p>
                         </div>
                         {% endif %}
-
                     </div> 
+
+                    <div class="rent">
+                        <div class="rent-container">
+                            <p>Rent: &#8377; {{property.rent}}</p>
+                        </div>
+                        <div class="shortlist-btn-container">
+                            <a href="" class="shortlist-btn"><i class="far fa-bookmark"></i> Shortlist</a>
+                        </div>
+                        <div class="contact-btn-container">
+                            <a href="" class="contact-btn"><i class="fas fa-phone"></i> Contact Owner</a>
+                        </div>
+                    </div>
 
                 </div>
 
@@ -152,12 +163,12 @@
     </div>
 
     <div class="container image-container">
-
-        <h1 style="margin-bottom: 50px;"> <i class="far fa-images"></i> Photos</h1>
-        {% for image in property.propertyimage_set.all %}
-        
-            <img src="{{ image.image.url }}" alt="" class="property-image">
-        {% endfor %}
+        <h3 style="margin-bottom: 50px; padding-top: 20px;"> <i class="far fa-images"></i> Photos</h3>
+        <div class="images">
+            {% for image in property.propertyimage_set.all %}
+                <img src="{{ image.image.url }}" alt="" class="property-image">
+            {% endfor %}
+        </div>
     </div>
 
 
