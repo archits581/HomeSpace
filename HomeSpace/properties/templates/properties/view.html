@@ -142,12 +142,21 @@
                         <div class="rent-container">
                             <p>Rent: &#8377; {{property.rent}}</p>
                         </div>
+
+                        {% if shortlisted %}
+                            <div class="remove-btn-container">
+                                <button class="shortlist-btn" id="{{property.pk}}remove" onclick="remove(event, '{{property.pk}}')" ><i class="fas fa-minus-circle"></i> Remove</button>
+                            </div>
+                        {% else %}
                         <div class="shortlist-btn-container">
                             <a href="" class="shortlist-btn"><i class="far fa-bookmark"></i> Shortlist</a>
                         </div>
+                        {% endif %}
                         <div class="contact-btn-container">
-                            <a href="" class="contact-btn"><i class="fas fa-phone"></i> Contact Owner</a>
+                            <button href="" class="contact-btn"><i class="fas fa-phone"></i> Contact Owner</button>
                         </div>
+
+                        
                     </div>
 
                 </div>
@@ -197,7 +206,7 @@
 
 {% block javascript %}
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
@@ -247,6 +256,26 @@
             lightbox.classList.remove('active');
         })
 
+</script>
+
+<script>
+    function remove(event, pk){
+      console.log(pk);
+        $.ajax({
+            type: "POST",
+            url: "{% url 'properties:ajax_remove_shortlisted' pk=property.pk %}",
+            dataType: 'json',
+            data:{
+                'csrfmiddlewaretoken': "{{ csrf_token }}"
+            },
+            success: function(){
+                window.location.href = "{% url 'properties:shortlisted' %}"
+            },
+            error: function(){
+                alert("Could not perform operation")
+            }
+        })
+    }
 </script>
 
 {% endblock %}

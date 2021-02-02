@@ -122,7 +122,17 @@ def view_property(request, pk):
     long = property_object.location.long
     context['lat'] = lat
     context['long'] = long
-    print(lat, long)
+    logged_in = False;
+    has_shortlisted = False;
+    if request.user.is_authenticated:
+        logged_in = True;
+        user_object = request.user;
+        try:
+            entry = Shortlisted.objects.get(property=property_object, user=user_object)
+            has_shortlisted = True;
+        except Shortlisted.DoesNotExist:
+            has_shortlisted = False
+    context['shortlisted'] = has_shortlisted
     return render(request, 'properties/view.html', context)
 
 
