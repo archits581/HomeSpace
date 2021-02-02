@@ -1,0 +1,3 @@
+{% for locality in localities %}
+<option value="{{ locality.pk }}">{{ locality.name|title }}</option>
+{% endfor %}

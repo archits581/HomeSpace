@@ -19,7 +19,7 @@ furnished_choices = [
 ]
 
 class City(models.Model):
-    name = models.CharField(blank=False, max_length=30)
+    name = models.CharField(blank=False, max_length=30, unique=True)
     
     def __str__(self):
         return self.name

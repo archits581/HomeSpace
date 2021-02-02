@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/add.css' %}">
 
+    <!-- JQUERY -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
     <!-- POPPINS FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
@@ -104,21 +108,18 @@
                 <div class="col-md-6 mb-10">
                     <label for="">City:</label>
                     <select name="city" id="id_city" required class="form-control">
-                        <option value="1">Mumbai</option>
-                        <option value="2">Bangalore</option>
-                        <option value="3">Delhi</option>
-                        <option value="4">Hyderabad</option>
-                        <option value="5">Pune</option>
-                        <option value="6">Chennai</option>
+                        {% for city in cities %}
+                        <option value="{{city.pk}}">{{city.name|title}}</option>
+                        {% endfor %}
                     </select>
                     <div class="invalid-feedback">
                         Please fill in the City
                     </div>
                 </div>
                 <div class="col-md-6 mb-10">
-                    <label for="">City:</label>
-                    <select name="locality" id="id_locality" required class="form-control">
-                        <option value="1">Andheri</option>
+                    <label for="">Locality:</label>
+                    <select name="locality" id="id_locality" required class="form-control" disabled>
+                        
                     </select>
                     <div class="invalid-feedback">
                         Please fill in the Locality
@@ -325,9 +326,42 @@
 
 
 {% block javascript %}
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <!-- Script for dependent dropdown -->
+    <script>
+        $("#id_city").change(function () { 
+        $.ajax({                       
+            url: 'ajax_load_localities/' + this.value,                    
+            data: {
+                'csrfmiddlewaretoken': "{{ csrf_token }}"
+            },
+            success: function (data) {   
+            $("#id_locality").html(data);
+            console.log(data);
+            }
+        });
+
+        });
+
+        $("#id_city").ready(function () { 
+        $.ajax({                       
+            url: 'ajax_load_localities/1',                    
+            data: {
+                'csrfmiddlewaretoken': "{{ csrf_token }}"
+            },
+            success: function (data) {   
+            $("#id_locality").html(data);
+            console.log(data);
+            }
+        });
+
+        });
+        
+    </script>
+
 {% endblock %}
 <!-- 
 </body>

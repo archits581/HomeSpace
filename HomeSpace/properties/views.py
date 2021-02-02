@@ -26,7 +26,8 @@ def createPropertyView(request):
             return HttpResponseRedirect(reverse('properties:add-images', args=(pk,)))
     else:
         form = PropertyDescriptionForm()
-    return render(request, 'properties/add.html', {'form': form})
+        cities = City.objects.all();
+    return render(request, 'properties/add.html', {'form': form, 'cities': cities})
 
 def homePage(request):
     return render(request, 'properties/landing.html', {})
@@ -163,6 +164,16 @@ def remove_shortlisted(request, pk):
     user_object = request.user
     if request.is_ajax and request.method == "POST":
         Shortlisted.objects.get(property=property_object, user=user_object).delete();
-        print('\nyes\n')
         return JsonResponse({"message": "success"}, status=200)
+    return JsonResponse({"error":"some error occured"}, status=400)
+
+
+def load_localities(request, pk):
+    city_object = City.objects.get(pk=pk)
+    context = {};
+    if request.is_ajax and request.method == "GET":
+        localities = Locality.objects.filter(city=city_object).order_by('name')
+        context['localities'] = localities
+        print('\nhello\n')
+        return render(request, 'properties/city_dropdown.html', context)
     return JsonResponse({"error":"some error occured"}, status=400)

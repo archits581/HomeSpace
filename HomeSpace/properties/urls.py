@@ -15,4 +15,5 @@ urlpatterns = [
     path('ajax_shortlist_property/<int:pk>', views.shortlist_property, name="shortlist"),
     path('shortlisted', views.shortlisted_properties, name="shortlisted"),
     path('ajax_remove_shortlisted/<int:pk>', views.remove_shortlisted, name="ajax_remove_shortlisted"),
+    path('ajax_load_localities/<int:pk>', views.load_localities, name="ajax_load_localities"),
 ]
