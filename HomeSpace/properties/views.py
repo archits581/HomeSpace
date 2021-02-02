@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.exceptions import ObjectDoesNotExist
 from .forms import PropertyDescriptionForm, PropertyImagesForm
-from .models import PropertyDescription, PropertyImage, Location, Locality, City
+from .models import PropertyDescription, PropertyImage, Location, Locality, City, Shortlisted
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
@@ -124,3 +124,35 @@ def view_property(request, pk):
     context['long'] = long
     print(lat, long)
     return render(request, 'properties/view.html', context)
+
+
+@login_required
+def shortlist_property(request, pk):
+    property_object = PropertyDescription.objects.get(pk=pk)
+    if request.is_ajax and request.method == "POST":
+        object = Shortlisted(user=request.user, property=property_object)
+        object.save()
+        print('done\n\ndone')
+        return JsonResponse({"message": "success"}, status=200)
+    return JsonResponse({"error":"some error occured"}, status=400)
+
+
+@login_required
+def shortlisted_properties(request):
+    properties = Shortlisted.objects.filter(user=request.user).values_list('property', flat=True)
+    context = {}
+    list = []
+    for p in properties:
+        list.append(PropertyDescription.objects.get(pk=p))
+    context['query_set'] = list
+    return render(request, 'properties/shortlisted.html', context);
+
+@login_required
+def remove_shortlisted(request, pk):
+    property_object = PropertyDescription.objects.get(pk=pk)
+    user_object = request.user
+    if request.is_ajax and request.method == "POST":
+        Shortlisted.objects.get(property=property_object, user=user_object).delete();
+        print('\nyes\n')
+        return JsonResponse({"message": "success"}, status=200)
+    return JsonResponse({"error":"some error occured"}, status=400)

@@ -61,7 +61,7 @@ class Location(models.Model):
     lat = models.DecimalField(max_digits=22, decimal_places=16)
     long = models.DecimalField(max_digits=22, decimal_places=16)
 
-class ShortlistedProperty(models.Model):
+class Shortlisted(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     property = models.ForeignKey(PropertyDescription, on_delete=models.CASCADE)
 

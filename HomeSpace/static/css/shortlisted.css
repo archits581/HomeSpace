@@ -1,3 +1,5 @@
+
+
 /* NAVBAR */
 #brand-logo{
     font-size: 1.4rem;
@@ -42,58 +44,20 @@
 }
 
 
-/* SEARCH FORM */
-.form-container{
+
+/* Heading */
+.heading-center{
     margin-top: 100px;
-    margin-bottom: 100px;
-    font-family: 'Inter', sans-serif;
-}
-
-.form-title{
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    text-align: center;
-}
-
-.search-btn{
-    padding: 10px 20px;
-    background-color: #ff4747;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
-}
-
-/* RESULTS SECTION */
-.results-container{
-    margin-top: 100px;
-    text-align: center;
-}
-
-.results-title{
     font-family: 'Inter', sans-serif;
     font-weight: 900;
 }
-
-.modal-btn{
-    color: #383838;
-    background-color: white;
-    border: 2px solid #383838;
-    border-radius: 5px;
-    font-family: 'Inter', sans-serif;
-    padding: 7px 16px;
-    font-weight: 500;
-}
-
-.modal-btn:hover{
-    background-color: #383838;
-    color: white;
-    transition-duration: 0.2s;
-}
-
 
 /* RESULT CARD SECTION */
+.cards-container{
+    margin-top: 50px;
+}
+
+
 .result-card{
     display: flex;
     flex-wrap: wrap;
@@ -200,6 +164,7 @@
     color: #ff4747;
     background: #fff0f0;
 }
+
 
 
 
