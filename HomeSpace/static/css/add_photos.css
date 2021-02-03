@@ -1,0 +1,123 @@
+body{
+    background-color: #fafafa;
+}
+
+/* NAVBAR */
+#brand-logo{
+    font-size: 1.4rem;
+}
+
+#login{
+    border: 2px solid #ff4747;
+    border-radius: 20px;
+    padding: 0.2rem 1rem!important;
+    color: #ff4747;
+}
+
+#login:hover{
+    color: white;
+    background-color: #ff4747;
+}
+
+#signup{
+    border: 2px solid #ff4747;
+    border-radius: 20px;
+    padding: 0.2rem 1rem!important;
+    color: #ff4747;
+}
+
+#signup:hover{
+    color: white;
+    background-color: #ff4747;
+}
+
+.custom-logo{
+    color: #ff4747;
+}
+
+.nav-link{
+    margin-right: 10px;
+}
+
+.navbar{
+    font-family: 'Poppins', sans-serif;
+    background-color: white;
+    box-shadow: 0px 8px 10px -10px #b5b5b5;
+}
+
+
+/* DROPZONE SECTION */
+.dropzone-container{
+    font-family: 'Inter', sans-serif;
+    margin-top: 150px;
+}
+
+.dropzone-title{
+    margin-bottom: 50px;
+}
+
+.dropzone{
+    border-radius: 15px;
+    max-width: 750px;
+    margin-right: auto;
+    margin-left: auto;
+    border: dashed;
+    border-color: #ccc !important;
+}
+
+.btn-container{
+    margin-top: 60px;
+}
+
+.submit-btn{
+    color: white;
+    background-color: #ff4747;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+}
+
+.submit-btn:hover{
+    color: white;
+    text-decoration: none;
+}
+
+
+
+/* FOOTER SECTION */
+footer{
+    margin-top: 200px;
+    background-color: #383838;
+    color: #9c9998;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    padding: 20px;
+    
+}
+
+.footer-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0px 30px;
+}
+
+.footer-title{
+    text-align: center;
+}
+
+.footer-images{
+    text-align: center;
+}
+
+
+
+/* OTHER DEVICES */
+@media only screen and (max-width:900px){
+
+    .nav-item{
+        margin-top: 10px;
+        text-align: center;
+    }
+}

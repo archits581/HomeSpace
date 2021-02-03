@@ -32,23 +32,42 @@ def createPropertyView(request):
 def homePage(request):
     return render(request, 'properties/landing.html', {})
 
+
+@login_required
+def add_images(request, pk):
+    if request.method == "POST":
+        try:
+            my_file = request.FILES.get('file')
+            property_object = PropertyDescription.objects.get(pk = pk)
+            PropertyImage.objects.create(image=my_file, property=property_object)
+        except PropertyDescription.DoesNotExist:
+            raise Http404('Page Not Found')
+        return HttpResponse('')
+    return JsonResponse({'post': false})
+
 @login_required()
 def add_property_images(request, pk):
-    if request.method == "POST":
-        form = PropertyImagesForm(request.POST, request.FILES)   
-        if form.is_valid():
-            try:
-                print("testing");
-                image = form.save(commit = False)
-                property_object = PropertyDescription.objects.get(pk=pk)
-                image.property = property_object
-                image.save()
-                return HttpResponseRedirect(reverse('properties:add-images', args=(pk,)))
-            except PropertyDescription.DoesNotExist:
-                raise Http404('Property does not exist')
-    else:
-        form = PropertyImagesForm()
-    return render(request, 'properties/add_photos.html', {'form': form})
+    # if request.method == "POST":
+    #     form = PropertyImagesForm(request.POST, request.FILES)   
+    #     if form.is_valid():
+    #         try:
+    #             print("testing");
+    #             image = form.save(commit = False)
+    #             property_object = PropertyDescription.objects.get(pk=pk)
+    #             image.property = property_object
+    #             image.save()
+    #             return HttpResponseRedirect(reverse('properties:add-images', args=(pk,)))
+    #         except PropertyDescription.DoesNotExist:
+    #             raise Http404('Property does not exist')
+    # else:
+    #     form = PropertyImagesForm()
+    try:
+        property_object = PropertyDescription.objects.get(pk=pk)
+        if property_object.propertyimage_set.count() != 0:
+            return HttpResponse('You have already uploaded images')
+    except PropertyDescription.DoesNotExist:
+        raise Http404('Could not find the page you were looking for')
+    return render(request, 'properties/add_photos.html', {'pk': pk})
 
 
 @login_required()
