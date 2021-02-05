@@ -250,7 +250,8 @@
           '{% for obj in query_set %}'
             console.log('{{obj.location.lat}}, {{obj.location.long}}')
             marker = new L.marker([ '{{ obj.location.lat }}', '{{ obj.location.long }}']).addTo(mymap)
-            marker.bindPopup("Rent: {{obj.rent}}")
+            var popupContent = `<h6>Rent: {{obj.rent}} </h6><br/> <img src="{{ obj.propertyimage_set.all.first.image.url }}" width="150px" height="150px" style="object-fit: contain; border: 1px solid #b8b6b0; border-radius: 5px;" >`;
+            marker.bindPopup(popupContent)
             marker.on('mouseover', function(e){
               this.openPopup();
             })
