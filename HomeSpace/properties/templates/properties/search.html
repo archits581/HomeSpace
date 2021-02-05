@@ -250,6 +250,16 @@
           '{% for obj in query_set %}'
             console.log('{{obj.location.lat}}, {{obj.location.long}}')
             marker = new L.marker([ '{{ obj.location.lat }}', '{{ obj.location.long }}']).addTo(mymap)
+            marker.bindPopup("Rent: {{obj.rent}}")
+            marker.on('mouseover', function(e){
+              this.openPopup();
+            })
+            marker.on('mouseout', function(e){
+              this.closePopup();
+            })
+            marker.on('click', function(e){
+              window.open("{% url 'properties:view' pk=obj.pk %}")
+            })
           '{% endfor %}'
         })
 
