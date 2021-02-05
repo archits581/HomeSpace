@@ -65,34 +65,6 @@
 
 
 
-/* FOOTER SECTION */
-footer{
-    margin-top: 200px;
-    background-color: #383838;
-    color: #9c9998;
-    font-family: 'Inter', sans-serif;
-    font-weight: 900;
-    padding: 20px;
-    
-}
-
-.footer-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    padding: 0px 30px;
-}
-
-.footer-title{
-    text-align: center;
-}
-
-.footer-images{
-    text-align: center;
-}
-
-
-
 /* OTHER DEVICES */
 @media only screen and (max-width:900px){
 

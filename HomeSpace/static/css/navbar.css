@@ -1,6 +1,4 @@
-body{
-    background-color: #fafafa;
-}
+
 
 /* NAVBAR */
 #brand-logo{
@@ -44,45 +42,6 @@ body{
     background-color: white;
     box-shadow: 0px 8px 10px -10px #b5b5b5;
 }
-
-
-/* DROPZONE SECTION */
-.dropzone-container{
-    font-family: 'Inter', sans-serif;
-    margin-top: 150px;
-}
-
-.dropzone-title{
-    margin-bottom: 50px;
-}
-
-.dropzone{
-    border-radius: 15px;
-    max-width: 750px;
-    margin-right: auto;
-    margin-left: auto;
-    border: dashed;
-    border-color: #ccc !important;
-}
-
-.btn-container{
-    margin-top: 60px;
-}
-
-.submit-btn{
-    color: white;
-    background-color: #ff4747;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-family: 'Inter', sans-serif;
-    text-decoration: none;
-}
-
-.submit-btn:hover{
-    color: white;
-    text-decoration: none;
-}
-
 
 
 /* OTHER DEVICES */
