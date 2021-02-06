@@ -5,26 +5,14 @@
     font-size: 1.4rem;
 }
 
-#login{
+.auth-btn{
     border: 2px solid #ff4747;
     border-radius: 20px;
     padding: 0.2rem 1rem!important;
     color: #ff4747;
 }
 
-#login:hover{
-    color: white;
-    background-color: #ff4747;
-}
-
-#signup{
-    border: 2px solid #ff4747;
-    border-radius: 20px;
-    padding: 0.2rem 1rem!important;
-    color: #ff4747;
-}
-
-#signup:hover{
+.auth-btn:hover{
     color: white;
     background-color: #ff4747;
 }
