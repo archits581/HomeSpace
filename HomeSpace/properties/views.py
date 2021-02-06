@@ -105,22 +105,26 @@ def my_properties(request):
 
 def search_property(request):    
     context = {}
+    context['cities'] = City.objects.all()
     context['localities'] = Locality.objects.all()
 
     lat = 0;
     long = 0;
-
     if not request.GET:
         return render(request, 'properties/search.html', context)
     else:
-        context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all())
+        if request.GET['tenant_type'] == 'Any':
+            context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all())
+        else:
+            context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all().filter(tenant_type=request.GET['tenant_type']))
+
         if request.GET['locality'] == 'Andheri' or request.GET['locality'] == 'andheri':
             lat = 19.1136;
             long = 72.8697;
 
         context['lat'] = lat;
         context['long'] = long;
-        context['query_set'] = []
+        context['query_set'] = []       
 
         for i in range(0, len(context['filter'].qs)):
             if context['filter'].qs[i].propertyimage_set.count() != 0 and hasattr(context['filter'].qs[i], 'location'):

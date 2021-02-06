@@ -5,9 +5,9 @@ class PropertyFilters(django_filters.FilterSet):
     class Meta:
         model = PropertyDescription
         fields = {
-                  'rent': ['lt'], 
+                  'rent': ['lt', 'exact'], 
                   'bhk': ['exact'], 
-                  'tenant_type': ['exact'], 
-                  'furnished':['exact'], 
+                  'furnished':['exact'],
+                  'city': ['exact'], 
                   'locality':['exact'], 
                   }

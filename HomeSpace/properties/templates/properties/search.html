@@ -52,43 +52,62 @@
 
     <form action="" method="GET">
 
-        <label for="id_rent__lt">Budget:</label><br>
-        <input type="number" name="rent__lt" step="any" id="id_rent__lt" class="search-form form-control"/> <br>
 
-        <label for="id_bhk">BHK:</label> <br>
-        <input type="number" name="bhk" step="any" id="id_bhk" class="search-form form-control"> <br>
+        <div class="form-row">
+          <div class="col-md-6">
+            <label for="id_rent__lt">Budget:</label><br>
+            <input type="number" name="rent__lt" step="any" id="id_rent__lt" class="search-form form-control"/> <br>
+          </div>
 
-        <label for="id_tenant_type">Tenant type:</label> <br>
-        <select name="tenant_type" id="id_tenant_type" class="form-control">
-            <option value="Bachelors">Bachelors</option>
-            <option value="Family Only">Family Only</option>
-            <option value="Any">Any</option>  
-        </select>
+          <div class="col-md-6">
+            <label for="id_bhk">BHK:</label> <br>
+            <input type="number" name="bhk" step="any" id="id_bhk" class="search-form form-control"> <br>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="col-md-6">
+            <label for="id_tenant_type">Tenant type:</label> <br>
+            <select name="tenant_type" id="id_tenant_type" class="form-control">
+                <option value="Bachelors">Bachelors</option>
+                <option value="Family Only">Family Only</option>
+                <option value="Any">Any</option>  
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="id_furnished">Furnished:</label>
+            <select name="furnished" id="id_furnished" class="form-control">
+                <option value="Unfurnished">Unfurnished</option>
+                <option value="Semi furnished">Semi furnished</option>
+                <option value="Furnished">Furnished</option>
+            </select>
+          </div>
+        </div>
         <br>
-        <label for="id_furnished">Furnished:</label>
-        <select name="furnished" id="id_furnished" class="form-control">
-            <option value="Unfurnished">Unfurnished</option>
-            <option value="Semi furnished">Semi furnished</option>
-            <option value="Furnished">Furnished</option>
-        </select>
-        <br>
 
-        <label for="id_locality">Locality:</label>
-        <select name="locality" id="id_locality" class="form-control"> 
-            <option value="">------------</option>         
-            {% for locality in localities %}
-            <option value="{{ locality.name }}">{{ locality.name|title }}</option>
-            {% endfor %}
-        </select>
-        
+
+        <div class="form-row">
+          <div class="col-md-6">
+            <label for="id_city">City:</label>
+            <select name="city" id="id_city" required class="form-control">
+                {% for city in cities %}
+                <option value="{{city.pk}}">{{city.name|title}}</option>
+                {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="id_locality">Locality:</label>
+            <select name="locality" id="id_locality" required class="form-control" >
+                        
+            </select>
+          </div>
+        </div>
         <br><br>
-        <!-- {{ filter.form.as_p }} -->
         <div class="submit-btn text-center">
             <button class="search-btn" type="submit">Search for properties</button>
         </div>
-
-             
-
     </form>
   </div>
   
@@ -283,6 +302,34 @@
             });
         }
 
+
+        $("#id_city").change(function () { 
+        $.ajax({                       
+            url: 'ajax_load_localities/' + this.value,                    
+            data: {
+                'csrfmiddlewaretoken': "{{ csrf_token }}"
+            },
+            success: function (data) {   
+            $("#id_locality").html(data);
+            console.log(data);
+            }
+        });
+
+        });
+
+        $("#id_city").ready(function () { 
+        $.ajax({                       
+            url: 'ajax_load_localities/1',                    
+            data: {
+                'csrfmiddlewaretoken': "{{ csrf_token }}"
+            },
+            success: function (data) {   
+            $("#id_locality").html(data);
+            console.log(data);
+            }
+        });
+
+        });
 
     </script>
 
