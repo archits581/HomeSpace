@@ -47,20 +47,6 @@ def add_images(request, pk):
 
 @login_required()
 def add_property_images(request, pk):
-    # if request.method == "POST":
-    #     form = PropertyImagesForm(request.POST, request.FILES)   
-    #     if form.is_valid():
-    #         try:
-    #             print("testing");
-    #             image = form.save(commit = False)
-    #             property_object = PropertyDescription.objects.get(pk=pk)
-    #             image.property = property_object
-    #             image.save()
-    #             return HttpResponseRedirect(reverse('properties:add-images', args=(pk,)))
-    #         except PropertyDescription.DoesNotExist:
-    #             raise Http404('Property does not exist')
-    # else:
-    #     form = PropertyImagesForm()
     try:
         property_object = PropertyDescription.objects.get(pk=pk)
         if property_object.propertyimage_set.count() != 0:
@@ -100,7 +86,10 @@ def ajax_add_location(request, pk):
 
 @login_required()
 def my_properties(request):
-    return HttpResponse("successful")
+    properties = PropertyDescription.objects.all().filter(user=request.user)
+    context = {}
+    context['properties'] = properties
+    return render(request, 'properties/my.html', context)
 
 
 def search_property(request):    
@@ -124,16 +113,14 @@ def search_property(request):
 
         context['lat'] = lat;
         context['long'] = long;
-        context['query_set'] = []       
+        context['query_set'] = []
 
+        prop_objects = context['filter']
         for i in range(0, len(context['filter'].qs)):
-            if context['filter'].qs[i].propertyimage_set.count() != 0 and hasattr(context['filter'].qs[i], 'location'):
+            current = prop_objects.qs[i]
+            print(current)
+            if current.propertyimage_set.count() != 0 and (not Shortlisted.objects.filter(user=request.user, property=current).exists()) and hasattr(context['filter'].qs[i], 'location'):
                 context['query_set'].append(context['filter'].qs[i])
-                # print(context['query_set'][0].propertyimage_set.all())
-                # print(context['filter'])
-                # for i in range (len(context['filter'].qs)):
-                # print(context['filter'].qs[i])
-                # print(context['filter'].qs[i].propertyimage_set.all()[0])
         print(context)
     return render(request, 'properties/search.html', context)
 
