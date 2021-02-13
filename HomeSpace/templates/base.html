@@ -51,14 +51,14 @@
     <ul class="navbar-nav ml-auto">
       {% if not request.user.is_authenticated %}
         <li class="nav-item">
-        <a class="nav-link auth-btn" href="{% url 'accounts:login' %}" id="login">Login</a>
+        <a class="auth-btn nav-link" href="{% url 'accounts:login' %}" id="login">Login</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link auth-btn" href="{% url 'accounts:signup' %}" id="signup">Sign Up</a>
+        <a class="auth-btn nav-link" href="{% url 'accounts:signup' %}" id="signup">Sign Up</a>
         </li>
       {% else %}
       <li class="nav-item">
-        <a class="nav-link auth-btn" href="{% url 'accounts:logout' %}" id="logout">Logout</a>
+        <a class="auth-btn nav-link" href="{% url 'accounts:logout' %}" id="logout">Logout</a>
       </li>
       {% endif %}
     </ul>

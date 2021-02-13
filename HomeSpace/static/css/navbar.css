@@ -5,11 +5,41 @@
     font-size: 1.4rem;
 }
 
+#login{
+    border-radius: 5px;
+    color: #ff4747;
+}
+
+#login:hover{
+    background-color: #ff4747;
+    color: white;
+}
+
+#signup{
+    border-radius: 5px;
+    color: #ff4747;
+}
+
+#signup:hover{
+    background-color: #ff4747;
+    color: white;
+}
+
+#logout{
+    border-radius: 5px;
+    color: #ff4747;
+}
+
+#logout:hover{
+    background-color: #ff4747;
+    color: white;
+}
+
 .auth-btn{
     border: 2px solid #ff4747;
-    border-radius: 20px;
+    /* border-radius: 20px; */
     padding: 0.2rem 1rem!important;
-    color: #ff4747;
+    /* color: #ff4747; */
 }
 
 .auth-btn:hover{
