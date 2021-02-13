@@ -7,9 +7,20 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from .filters import PropertyFilters
+from accounts.models import Member
 
 
 # Create your views here.
+
+#Utility dictionary to store coordinates of cities in the database. Add coordinates of new city when the city is added to the database
+coords = {
+          "Mumbai": [19.0760, 72.8777],
+          "Delhi": [28.7041, 77.1025],
+          "Bangalore": [12.9716, 77.5946], 
+          "Pune": [18.5204, 73.8567],
+          "Hyderabad": [17.3850, 78.4867],
+          "Chennai": [13.0827, 80.2707],
+        }
 
 User = get_user_model()
 
@@ -58,7 +69,10 @@ def add_property_images(request, pk):
 
 @login_required()
 def add_location(request, pk):
-    property_object = PropertyDescription.objects.get(pk=pk)
+    try:
+        property_object = PropertyDescription.objects.get(pk=pk)
+    except PropertyDescription.DoesNotExist:
+        raise Http404('Page not found')
     lat = 0
     long = 0
 
@@ -73,7 +87,10 @@ def add_location(request, pk):
 
 @login_required()
 def ajax_add_location(request, pk):
-    property_object = PropertyDescription.objects.get(pk=pk)
+    try:
+        property_object = PropertyDescription.objects.get(pk=pk)
+    except PropertyDescription.DoesNotExist:
+        return JsonResponse({"error":"some error occured"}, status=400)
     if request.is_ajax and request.method == "POST":
         latitude = request.POST['latitude']
         longitude = request.POST['longitude']
@@ -102,15 +119,13 @@ def search_property(request):
     if not request.GET:
         return render(request, 'properties/search.html', context)
     else:
-        if request.GET['tenant_type'] == 'Any':
-            context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all())
+        if request.GET['tenant_type'] != 'Any':
+            context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all().filter(tenant_type=request.GET['tenant_type'], city=City.objects.get(pk=request.GET["city"]), locality=Locality.objects.get(pk=request.GET["locality"]) ))
         else:
-            context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all().filter(tenant_type=request.GET['tenant_type']))
-
-        if request.GET['locality'] == 'Andheri' or request.GET['locality'] == 'andheri':
-            lat = 19.1136;
-            long = 72.8697;
-
+            context['filter'] = PropertyFilters(request.GET, queryset=PropertyDescription.objects.all().filter(city=City.objects.get(pk=request.GET["city"]), locality=Locality.objects.get(pk=request.GET["locality"]) ))
+        city_value = City.objects.get(pk=request.GET["city"]).name
+        lat = coords[city_value][0];
+        long = coords[city_value][1];
         context['lat'] = lat;
         context['long'] = long;
         context['query_set'] = []
@@ -126,8 +141,13 @@ def search_property(request):
 
 
 def view_property(request, pk):
-    property_object = PropertyDescription.objects.get(pk=pk)
+    try:
+        property_object = PropertyDescription.objects.get(pk=pk)
+    except PropertyDescription.DoesNotExist:
+        raise Http404('Could not find what you were looking for')
     context = {};
+    context['owner'] = property_object.user
+    context['phone_number'] = context['owner'].member
     context['property'] = property_object;
     lat = property_object.location.lat
     long = property_object.location.long
@@ -149,7 +169,10 @@ def view_property(request, pk):
 
 @login_required
 def shortlist_property(request, pk):
-    property_object = PropertyDescription.objects.get(pk=pk)
+    try:
+        property_object = PropertyDescription.objects.get(pk=pk)
+    except PropertyDescription.DoesNotExist:
+        return JsonResponse({"error":"some error occured"}, status=400)
     if request.is_ajax and request.method == "POST":
         object = Shortlisted(user=request.user, property=property_object)
         object.save()
@@ -178,6 +201,8 @@ def remove_shortlisted(request, pk):
     return JsonResponse({"error":"some error occured"}, status=400)
 
 
+
+#Utility function to provide localities for selected city in dependent dropdowns
 def load_localities(request, pk):
     city_object = City.objects.get(pk=pk)
     context = {};

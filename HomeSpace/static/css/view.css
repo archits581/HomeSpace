@@ -1,5 +1,6 @@
 body{
     background-color: #fdfdfd;
+    box-sizing: border-box;
 }
 
 
@@ -92,7 +93,7 @@ body{
     background-color: #ff4747;
     color: white;
     font-family: 'Inter', sans-serif;
-    padding: 8px 17px;
+    padding: 5px 13px;
     border-radius: 5px;
     text-decoration: none;
 }
