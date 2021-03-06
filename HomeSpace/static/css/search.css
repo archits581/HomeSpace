@@ -169,4 +169,56 @@
         margin-top: 10px;
         text-align: center;
     }
+
+
+    .result-card{
+        display: block;
+        width:90%;
+        min-height: 700px;
+        margin-bottom: 600px;
+    }
+
+    .result-image-contain{
+        margin-top: 20px;
+    }
+
+    .info-container{
+        border:none;
+        margin-top: 20px;
+        margin-right: 0px;
+    }
+}
+
+
+@media only screen and (max-width: 768px){
+
+    .info-container{
+        min-height: 400px;
+        max-width: 80%;
+        margin-right: 0px;
+    }
+
+    .info-button-container{
+        display:block;
+        margin-top: 20px;
+        max-width: 90%;
+        padding:0px;
+    }
+
+    .info-button-container > button{
+        display: block;
+        margin-top: 20px;
+        width:90%;
+        margin-left:0;
+        margin-right: 0;
+    }
+    
+    .info-button-container > a{
+        display: inline-block;
+        margin-top:20px;
+        width:90%;
+        margin-left:auto;
+        margin-right: auto;
+        text-align:center;
+    }
 }

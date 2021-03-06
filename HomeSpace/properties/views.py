@@ -26,7 +26,33 @@ User = get_user_model()
 
 @login_required()
 def createPropertyView(request):
+    cities = City.objects.all()
     if request.method == 'POST':
+        errors = []
+        apartment_name = request.POST["apartment_number"];
+        building_name = request.POST["building"];
+        description = request.POST["description"];
+        rent = int(request.POST["rent"]);
+        deposit = int(request.POST["deposit"]);
+        bedrooms = int(request.POST["bhk"]);
+
+        #SERVER SIDE VALIDATION:
+        if len(apartment_name) < 1:
+            errors.append("Invalid apartment number. Apartment nunber should be at least 2 characters");
+        if len(building_name) < 7:
+            errors.append("Invalid building/society name. It should be at least 7 characters");
+        if len(description) < 30:
+            errors.append("Please add more information in the description section");
+        if rent<2000 or rent>100000:
+            errors.append("Rent cannot be more than 100000 or less than 2000 per month");
+        if deposit<1000 or deposit>1000000:
+            errors.append("Deposit cannot be more than 100000 or less than 1000 per month");
+        if bedrooms<1 or bedrooms>7:
+            errors.append("Cannot have more than 7 bedrooms or less than 1 bedroom");
+        
+        if len(errors) > 0:
+            return render(request, 'properties/add.html', {'cities': cities, "errors": errors});
+
         form = PropertyDescriptionForm(request.POST)
         if form.is_valid():
             owner = get_object_or_404(User, pk=request.user.pk)
@@ -36,9 +62,8 @@ def createPropertyView(request):
             pk = property_object.pk
             return HttpResponseRedirect(reverse('properties:add-images', args=(pk,)))
     else:
-        form = PropertyDescriptionForm()
-        cities = City.objects.all();
-    return render(request, 'properties/add.html', {'form': form, 'cities': cities})
+        pass
+    return render(request, 'properties/add.html', {'cities': cities, "errors": []});
 
 def homePage(request):
     return render(request, 'properties/landing.html', {})
@@ -80,8 +105,8 @@ def add_location(request, pk):
         return HttpResponse('You have already selected a location')
     city = property_object.city.name
     if city == "Mumbai":
-        lat = 19.0760
-        long = 72.8777
+        lat = coords[city][0]
+        long = coords[city][1]
     return render(request, 'properties/add_location.html', {'primary_key':pk, 'center_lat': lat, 'center_long': long})
 
 
@@ -176,7 +201,7 @@ def shortlist_property(request, pk):
     if request.is_ajax and request.method == "POST":
         object = Shortlisted(user=request.user, property=property_object)
         object.save()
-        print('done\n\ndone')
+        # print('done\n\ndone')
         return JsonResponse({"message": "success"}, status=200)
     return JsonResponse({"error":"some error occured"}, status=400)
 
