@@ -1,68 +1,95 @@
+{% extends 'base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% block styles %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container" style="box-shadow: 3px 3px 10px 0px #888888; border-radius: 10px; max-width: 400px; margin-top: 40px; margin-bottom:40px; padding: 20px;">
-        <form class="" method="POST">
-        <div class="text-center">
-            <img width=64 src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMnB0IiB2aWV3Qm94PSIwIC0xMSA1MTIgNTEyIiB3aWR0aD0iNTEycHQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTE5MiAyMTMuMzMyMDMxYy01OC44MTY0MDYgMC0xMDYuNjY3OTY5LTQ3Ljg0NzY1Ni0xMDYuNjY3OTY5LTEwNi42NjQwNjIgMC01OC44MTY0MDcgNDcuODUxNTYzLTEwNi42Njc5NjkgMTA2LjY2Nzk2OS0xMDYuNjY3OTY5czEwNi42Njc5NjkgNDcuODUxNTYyIDEwNi42Njc5NjkgMTA2LjY2Nzk2OWMwIDU4LjgxNjQwNi00Ny44NTE1NjMgMTA2LjY2NDA2Mi0xMDYuNjY3OTY5IDEwNi42NjQwNjJ6bTAtMTgxLjMzMjAzMWMtNDEuMTcxODc1IDAtNzQuNjY3OTY5IDMzLjQ5MjE4OC03NC42Njc5NjkgNzQuNjY3OTY5IDAgNDEuMTcxODc1IDMzLjQ5NjA5NCA3NC42NjQwNjIgNzQuNjY3OTY5IDc0LjY2NDA2MnM3NC42Njc5NjktMzMuNDkyMTg3IDc0LjY2Nzk2OS03NC42NjQwNjJjMC00MS4xNzU3ODEtMzMuNDk2MDk0LTc0LjY2Nzk2OS03NC42Njc5NjktNzQuNjY3OTY5em0wIDAiLz48cGF0aCBkPSJtNDc0LjY2Nzk2OSA0OTAuNjY3OTY5aC0xMTcuMzM1OTM4Yy0yMC41ODU5MzcgMC0zNy4zMzIwMzEtMTYuNzQ2MDk0LTM3LjMzMjAzMS0zNy4zMzU5Mzh2LTc0LjY2NDA2MmMwLTIwLjU4OTg0NCAxNi43NDYwOTQtMzcuMzM1OTM4IDM3LjMzMjAzMS0zNy4zMzU5MzhoMTE3LjMzNTkzOGMyMC41ODU5MzcgMCAzNy4zMzIwMzEgMTYuNzQ2MDk0IDM3LjMzMjAzMSAzNy4zMzU5Mzh2NzQuNjY0MDYyYzAgMjAuNTg5ODQ0LTE2Ljc0NjA5NCAzNy4zMzU5MzgtMzcuMzMyMDMxIDM3LjMzNTkzOHptLTExNy4zMzU5MzgtMTE3LjMzNTkzOGMtMi45NDE0MDYgMC01LjMzMjAzMSAyLjM5MDYyNS01LjMzMjAzMSA1LjMzNTkzOHY3NC42NjQwNjJjMCAyLjk0NTMxMyAyLjM5MDYyNSA1LjMzNTkzOCA1LjMzMjAzMSA1LjMzNTkzOGgxMTcuMzM1OTM4YzIuOTQxNDA2IDAgNS4zMzIwMzEtMi4zOTA2MjUgNS4zMzIwMzEtNS4zMzU5Mzh2LTc0LjY2NDA2MmMwLTIuOTQ1MzEzLTIuMzkwNjI1LTUuMzM1OTM4LTUuMzMyMDMxLTUuMzM1OTM4em0wIDAiLz48cGF0aCBkPSJtNDUzLjMzMjAzMSAzNzMuMzMyMDMxaC03NC42NjQwNjJjLTguODMyMDMxIDAtMTYtNy4xNjc5NjktMTYtMTZ2LTQ4YzAtMjkuMzk0NTMxIDIzLjkzMzU5My01My4zMzIwMzEgNTMuMzMyMDMxLTUzLjMzMjAzMXM1My4zMzIwMzEgMjMuOTM3NSA1My4zMzIwMzEgNTMuMzMyMDMxdjQ4YzAgOC44MzIwMzEtNy4xNjc5NjkgMTYtMTYgMTZ6bS01OC42NjQwNjItMzJoNDIuNjY0MDYydi0zMmMwLTExLjc1MzkwNi05LjU3ODEyNS0yMS4zMzIwMzEtMjEuMzMyMDMxLTIxLjMzMjAzMXMtMjEuMzMyMDMxIDkuNTc4MTI1LTIxLjMzMjAzMSAyMS4zMzIwMzF6bTAgMCIvPjxwYXRoIGQ9Im0yNjYuNjY3OTY5IDQ0OGgtMjUwLjY2Nzk2OWMtOC44MzIwMzEgMC0xNi03LjE2Nzk2OS0xNi0xNnYtNzQuNjY3OTY5YzAtNTUuODcxMDkzIDQ1LjQ2MDkzOC0xMDEuMzMyMDMxIDEwMS4zMzIwMzEtMTAxLjMzMjAzMWgxODYuNjY3OTY5YzE3LjgzNTkzOCAwIDM1LjM5MDYyNSA0LjcxNDg0NCA1MC43NTM5MDYgMTMuNjUyMzQ0IDcuNjM2NzE5IDQuNDM3NSAxMC4yMTQ4NDQgMTQuMjMwNDY4IDUuNzgxMjUgMjEuODY3MTg3LTQuNDM3NSA3LjY2MDE1Ny0xNC4yMzA0NjggMTAuMjE4NzUtMjEuODkwNjI1IDUuNzgxMjUtMTAuNDcyNjU2LTYuMDc4MTI1LTIyLjQ2NDg0My05LjMwMDc4MS0zNC42NDQ1MzEtOS4zMDA3ODFoLTE4Ni42Njc5NjljLTM4LjIyNjU2MiAwLTY5LjMzMjAzMSAzMS4xMDU0NjktNjkuMzMyMDMxIDY5LjMzMjAzMXY1OC42Njc5NjloMjM0LjY2Nzk2OWM4LjgzMjAzMSAwIDE2IDcuMTY3OTY5IDE2IDE2cy03LjE2Nzk2OSAxNi0xNiAxNnptMCAwIi8+PC9zdmc+" />
-        </div>
-            <br>
-            <h1 style="text-align: center; font-family: 'Montserrat', sans-serif;">LOGIN</h1>
-            <br>
-          {% csrf_token %}
-          {% csrf_token %}
 
-            {% for hidden_field in form.hidden_fields %}
-                {{ hidden_field }}
-            {% endfor %}
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
 
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger" role="alert">
-                {% for error in form.non_field_errors %}
-                    {{ error }}
-                {% endfor %}
-                </div>
-            {% endif %}
+    <!-- POPPINS FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
-            {% for field in form.visible_fields %}
-                <div class="form-group">
-                {{ field.label_tag }}
+    <!-- INTER FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
 
-                {% if form.is_bound %}
-                    {% if field.errors %}
-                    {% render_field field class="form-control is-invalid" %}
-                    {% for error in field.errors %}
-                        <div class="invalid-feedback">
-                        {{ error }}
-                        </div>
-                    {% endfor %}
-                    {% else %}
-                    {% render_field field class="form-control is-valid" %}
-                    {% endif %}
-                {% else %}
-                    {% render_field field class="form-control" %}
-                {% endif %}
+    <!-- ROBOTO FONT -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;900&display=swap" rel="stylesheet">
 
-                {% if field.help_text %}
-                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                {% endif %}
-                </div>
-            {% endfor %}
-            <div class="text-center">
-                <button type="submit" class="btn btn-danger btn-lg">Login</button>
-            </div>
-          </form>
-      </div>
-</body>
-</html>
+{% endblock %}
+
+
+{% block content %}
+<div class="container" >
+    <form class="" method="POST">
+    <div class="text-center">
+        <img width=64 src="data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjUxMnB0IiB2aWV3Qm94PSIwIC0xMSA1MTIgNTEyIiB3aWR0aD0iNTEycHQiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0ibTE5MiAyMTMuMzMyMDMxYy01OC44MTY0MDYgMC0xMDYuNjY3OTY5LTQ3Ljg0NzY1Ni0xMDYuNjY3OTY5LTEwNi42NjQwNjIgMC01OC44MTY0MDcgNDcuODUxNTYzLTEwNi42Njc5NjkgMTA2LjY2Nzk2OS0xMDYuNjY3OTY5czEwNi42Njc5NjkgNDcuODUxNTYyIDEwNi42Njc5NjkgMTA2LjY2Nzk2OWMwIDU4LjgxNjQwNi00Ny44NTE1NjMgMTA2LjY2NDA2Mi0xMDYuNjY3OTY5IDEwNi42NjQwNjJ6bTAtMTgxLjMzMjAzMWMtNDEuMTcxODc1IDAtNzQuNjY3OTY5IDMzLjQ5MjE4OC03NC42Njc5NjkgNzQuNjY3OTY5IDAgNDEuMTcxODc1IDMzLjQ5NjA5NCA3NC42NjQwNjIgNzQuNjY3OTY5IDc0LjY2NDA2MnM3NC42Njc5NjktMzMuNDkyMTg3IDc0LjY2Nzk2OS03NC42NjQwNjJjMC00MS4xNzU3ODEtMzMuNDk2MDk0LTc0LjY2Nzk2OS03NC42Njc5NjktNzQuNjY3OTY5em0wIDAiLz48cGF0aCBkPSJtNDc0LjY2Nzk2OSA0OTAuNjY3OTY5aC0xMTcuMzM1OTM4Yy0yMC41ODU5MzcgMC0zNy4zMzIwMzEtMTYuNzQ2MDk0LTM3LjMzMjAzMS0zNy4zMzU5Mzh2LTc0LjY2NDA2MmMwLTIwLjU4OTg0NCAxNi43NDYwOTQtMzcuMzM1OTM4IDM3LjMzMjAzMS0zNy4zMzU5MzhoMTE3LjMzNTkzOGMyMC41ODU5MzcgMCAzNy4zMzIwMzEgMTYuNzQ2MDk0IDM3LjMzMjAzMSAzNy4zMzU5Mzh2NzQuNjY0MDYyYzAgMjAuNTg5ODQ0LTE2Ljc0NjA5NCAzNy4zMzU5MzgtMzcuMzMyMDMxIDM3LjMzNTkzOHptLTExNy4zMzU5MzgtMTE3LjMzNTkzOGMtMi45NDE0MDYgMC01LjMzMjAzMSAyLjM5MDYyNS01LjMzMjAzMSA1LjMzNTkzOHY3NC42NjQwNjJjMCAyLjk0NTMxMyAyLjM5MDYyNSA1LjMzNTkzOCA1LjMzMjAzMSA1LjMzNTkzOGgxMTcuMzM1OTM4YzIuOTQxNDA2IDAgNS4zMzIwMzEtMi4zOTA2MjUgNS4zMzIwMzEtNS4zMzU5Mzh2LTc0LjY2NDA2MmMwLTIuOTQ1MzEzLTIuMzkwNjI1LTUuMzM1OTM4LTUuMzMyMDMxLTUuMzM1OTM4em0wIDAiLz48cGF0aCBkPSJtNDUzLjMzMjAzMSAzNzMuMzMyMDMxaC03NC42NjQwNjJjLTguODMyMDMxIDAtMTYtNy4xNjc5NjktMTYtMTZ2LTQ4YzAtMjkuMzk0NTMxIDIzLjkzMzU5My01My4zMzIwMzEgNTMuMzMyMDMxLTUzLjMzMjAzMXM1My4zMzIwMzEgMjMuOTM3NSA1My4zMzIwMzEgNTMuMzMyMDMxdjQ4YzAgOC44MzIwMzEtNy4xNjc5NjkgMTYtMTYgMTZ6bS01OC42NjQwNjItMzJoNDIuNjY0MDYydi0zMmMwLTExLjc1MzkwNi05LjU3ODEyNS0yMS4zMzIwMzEtMjEuMzMyMDMxLTIxLjMzMjAzMXMtMjEuMzMyMDMxIDkuNTc4MTI1LTIxLjMzMjAzMSAyMS4zMzIwMzF6bTAgMCIvPjxwYXRoIGQ9Im0yNjYuNjY3OTY5IDQ0OGgtMjUwLjY2Nzk2OWMtOC44MzIwMzEgMC0xNi03LjE2Nzk2OS0xNi0xNnYtNzQuNjY3OTY5YzAtNTUuODcxMDkzIDQ1LjQ2MDkzOC0xMDEuMzMyMDMxIDEwMS4zMzIwMzEtMTAxLjMzMjAzMWgxODYuNjY3OTY5YzE3LjgzNTkzOCAwIDM1LjM5MDYyNSA0LjcxNDg0NCA1MC43NTM5MDYgMTMuNjUyMzQ0IDcuNjM2NzE5IDQuNDM3NSAxMC4yMTQ4NDQgMTQuMjMwNDY4IDUuNzgxMjUgMjEuODY3MTg3LTQuNDM3NSA3LjY2MDE1Ny0xNC4yMzA0NjggMTAuMjE4NzUtMjEuODkwNjI1IDUuNzgxMjUtMTAuNDcyNjU2LTYuMDc4MTI1LTIyLjQ2NDg0My05LjMwMDc4MS0zNC42NDQ1MzEtOS4zMDA3ODFoLTE4Ni42Njc5NjljLTM4LjIyNjU2MiAwLTY5LjMzMjAzMSAzMS4xMDU0NjktNjkuMzMyMDMxIDY5LjMzMjAzMXY1OC42Njc5NjloMjM0LjY2Nzk2OWM4LjgzMjAzMSAwIDE2IDcuMTY3OTY5IDE2IDE2cy03LjE2Nzk2OSAxNi0xNiAxNnptMCAwIi8+PC9zdmc+" />
+    </div>
+    <br>
+    <div class="text-center title">  
+        <h1>LOGIN</h1>
+    </div>
+    <br>
+    <div class="form">
+
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}
+            {% csrf_token %}
+      
+              {% for hidden_field in form.hidden_fields %}
+                  {{ hidden_field }}
+              {% endfor %}
+      
+              {% if form.non_field_errors %}
+                  <div class="alert alert-danger" role="alert">
+                  {% for error in form.non_field_errors %}
+                      {{ error }}
+                  {% endfor %}
+                  </div>
+              {% endif %}
+      
+              {% for field in form.visible_fields %}
+                  <div class="form-group">
+                  {{ field.label_tag }}
+      
+                  {% if form.is_bound %}
+                      {% if field.errors %}
+                      {% render_field field class="form-control is-invalid" %}
+                      {% for error in field.errors %}
+                          <div class="invalid-feedback">
+                          {{ error }}
+                          </div>
+                      {% endfor %}
+                      {% else %}
+                      {% render_field field class="form-control is-valid" %}
+                      {% endif %}
+                  {% else %}
+                      {% render_field field class="form-control" %}
+                  {% endif %}
+      
+                  {% if field.help_text %}
+                      <small class="form-text text-muted">{{ field.help_text }}</small>
+                  {% endif %}
+                  </div>
+              {% endfor %}
+              <div class="text-center">
+                  <button type="submit" class="submit-btn">Log In</button>
+              </div>
+            </form>
+
+    </div>
+    
+  </div>
+
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+{% endblock %}
