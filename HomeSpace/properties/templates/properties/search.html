@@ -132,76 +132,58 @@
 
     <div class="cards-container container">
       {% for obj in query_set %}
-        <div class="result-card">
-
-          <!-- Div for image -->
-          <div class="image-container">
-            <img src="{{ obj.propertyimage_set.all.first.image.url }}" alt="{{ obj.pk }} image" class="result-image-contain">
-          </div>
-
-          <!-- Div for information -->
-          <div class="info-container">
-            <div class="fill">
-              <p class="property-short-info">{{ obj.bhk }} BHK apartment in {{ obj.locality|title }}</p>
-              <h3 class="society-name">{{ obj.building|title }}</h3>
-              <br>
-              <p class="features">&#8226;{{ obj.furnished }} 
-                
-                {% if obj.play_area %}
-                &#8226;Children's play area
-                {% endif %} 
-                
-                {% if obj.lift %}
-                &#8226;Elevator
-                {% endif %}
-                
-                {% if obj.gym %}
-                &#8226;Gym
-                {% endif %}
-                
-                {% if obj.club_house %}
-                &#8226;Club House
-                {% endif %}
-  
-                &#8226;For {{obj.tenant_type}}
-              </p>
+        <div class="result-card container">
+          <div class="row">
+            <div class="col-lg-5 image-container">
+              <img src="{{ obj.propertyimage_set.all.first.image.url }}" alt="{{ obj.pk }} image">
             </div>
-            
-            <div class="info-button-container">
-              <p class="property-info-rent">&#8377;{{ obj.rent }}/month</p>
-              <button href="" class="shortlist-property-btn" id="{{obj.pk}}shortlist" onclick="shortlist(event, '{{obj.pk}}')" ><i class="far fa-bookmark"></i> Shortlist</button>
-              <a href="" class="view-property-btn">View</a>
+            <div class="col-lg-7 info-container">
+              <div class="holder">
+                <div class="row">
+                  <h5>{{ obj.bhk }} BHK apartment in {{obj.locality|title}}</h5>
+                </div>
+                <div class="row">
+                  <h3>{{obj.building|title}}</h3>
+                </div>
+                <div class="row" style="margin-top: 20px; color: #717171">
+                  <p class="features">&#8226;{{ obj.furnished }} 
+                
+                    {% if obj.play_area %}
+                    &#8226;Children's play area
+                    {% endif %} 
+                    
+                    {% if obj.lift %}
+                    &#8226;Elevator
+                    {% endif %}
+                    
+                    {% if obj.gym %}
+                    &#8226;Gym
+                    {% endif %}
+                    
+                    {% if obj.club_house %}
+                    &#8226;Club House
+                    {% endif %}
+      
+                    &#8226;For {{obj.tenant_type}}
+                  </p>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <p class="property-info-rent">&#8377;{{ obj.rent }}/month</p>
+                  </div>
+                  <div class="col-lg-4">
+                    <button href="" class="shortlist-property-btn" id="{{obj.pk}}shortlist" onclick="shortlist(event, '{{obj.pk}}')" ><i class="far fa-bookmark"></i> Shortlist</button>
+                  </div>
+                  <div class="col-lg-4 text-center">
+                    <a href="" class="view-property-btn">View</a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-        
         </div>
       {% endfor %}
     </div>
-
-    
-    <!-- <div class="image-container container">
-      {% for obj in query_set %}
-      <div class="result-card">
-        <div class="result-image-container">
-          <img width="100px" src="{{ obj.propertyimage_set.all.first.image.url }}" alt="{{ obj.pk }} image" class="result-image-contain">
-        </div>
-        <div class="result-content">
-          <h3>{{ obj.building|title }}</h3>
-          <p>{{ obj.rent }}</p>
-          <p>{{ obj.furnished }} <br> {{ obj.tenant_type }}</p>
-        </div>
-        <div class="view-button text-center">
-          <a href="" class="view-btn">View Property</a>
-        </div>
-      </div>
-      {% endfor %}
-    </div> -->
-
-    <!-- {% for obj in query_set %}
-    {{ obj.propertyimage_set.all.first.image.url }}
-    <br>
-    {{ obj.pk }} - ${{ obj.rent }}<br />
-    {% endfor %} -->
   </div>
   
 {% endif %}
@@ -225,7 +207,7 @@
               </div>
               <div class="modal-body">
                 <div class="container">
-                  <div id="mapid" style="width: 400px; height: 400px; margin: auto;">
+                  <div id="mapid">
                 </div>
               </div>
               <div class="modal-footer">

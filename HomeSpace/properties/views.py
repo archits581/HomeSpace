@@ -156,12 +156,19 @@ def search_property(request):
         context['query_set'] = []
 
         prop_objects = context['filter']
-        for i in range(0, len(context['filter'].qs)):
-            current = prop_objects.qs[i]
-            print(current)
-            if current.propertyimage_set.count() != 0 and (not Shortlisted.objects.filter(user=request.user, property=current).exists()) and hasattr(context['filter'].qs[i], 'location'):
-                context['query_set'].append(context['filter'].qs[i])
-        print(context)
+
+        if not request.user.is_authenticated:
+            for i in range(0, len(context['filter'].qs)):
+                current = prop_objects.qs[i]
+                if not request.user.is_authenticated and current.propertyimage_set.count() != 0 and hasattr(context['filter'].qs[i], 'location'):
+                    context['query_set'].append(context['filter'].qs[i])
+            return render(request, 'properties/search.html', context)
+        
+        else:
+            for i in range(0, len(context['filter'].qs)):
+                current = prop_objects.qs[i]
+                if current.propertyimage_set.count() != 0 and (not Shortlisted.objects.filter(user=request.user, property=current).exists()) and hasattr(context['filter'].qs[i], 'location'):
+                    context['query_set'].append(context['filter'].qs[i])
     return render(request, 'properties/search.html', context)
 
 
