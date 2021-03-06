@@ -6,58 +6,7 @@ body{
 
 /* DESCRIPTION CONTAINER */
 .first{
-    border-radius: 10px;
     min-height: 500px;
-    box-shadow: 0 15px 30px rgba(201, 201, 201, 0.4),
-  0 30px 100px rgba(196, 193, 183,0.2);
-    font-family: 'Inter', sans-serif;
-    color: #4d4d4d;
-}
-
-.first > .row{
-    min-height: 500px;
-}
-
-.contain{
-    padding:20px;
-}
-
-.second-col{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#mapid{
-    width: 90%;
-    height: 480px;
-    margin: 10px;
-    border-radius: 10px;
-}
-
-.rent-info{
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.contact-btn{
-    width:100%;
-    padding: 10px 20px;
-    margin-top: 10px;
-    background-color: #ff4747;
-    color: white;
-    border-radius: 3px;
-    border: 1px solid #ff4747;
-}
-
-.shortlist-btn{
-    width: 100%;
-    padding: 10px 20px;
-    margin-top: 10px;
-    background-color: white;
-    color: #ff4747;
-    border: 2px solid #ff4747;
-    border-radius: 3px;
 }
 
 

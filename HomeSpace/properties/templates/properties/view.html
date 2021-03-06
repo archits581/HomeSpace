@@ -19,10 +19,6 @@
     <!-- JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-
-        
-
     <!-- FONT AWESOME KIT CODE -->
     <script src="https://kit.fontawesome.com/3d6760da32.js" crossorigin="anonymous"></script>
 
@@ -48,9 +44,8 @@
 {% block content %}
 
     <!-- CONTENT -->
-    <div class="container main-container">
+    <!-- <div class="container main-container">
         <div class="content-container">
-            <!-- INFO SECTION -->
             <div class="desc-container">
                 <div class="property-description">
                     <h4>Description</h4>
@@ -127,22 +122,92 @@
                                 <i class="fas fa-phone"></i>  Contact Owner 
                             </button>
                         </div>
-
-                        
                     </div>
-
                 </div>
-
             </div>
-            <!-- MAP SECTION -->
+
+
             <div class="map-container">
                 <div id="mapid">
 
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
+<!-- NEW -->
+<div class="container">
+    <div class="first" style="margin-top:100px; margin-bottom: 100px;">
+        <div class="row">
+            <!-- INFO SECTION -->
+            <div class="col-lg-6 first-col">
+                <div class="contain">
+                    <div class="description">
+                        <h4>Description</h4>
+                        <p>{{property.description}}</p>
+                    </div>
+                    <div class="amenities">
+                        <h4>Amenities</h4>
+                        <ul>
+                            {% if property.lift %}
+                                <li>Elevator</li>
+                            {% endif %}
+                            {% if property.play_area %}
+                                <li>Children's Play Area</li>
+                            {% endif %}
+                            {% if property.internet_services %}
+                                <li>Internet Services</li>
+                            {% endif %}
+                            {% if property.club_house %}
+                                <li>Club House</li>
+                            {% endif %}
+                            {% if property.swimming_pool %}
+                                <li>Swimming Pool</li>
+                            {% endif %}
+                            {% if property.security %}
+                                <li>Security</li>
+                            {% endif %}
+                            {% if property.gym %}
+                                <li>Gym</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="buttons">
+                        <div class="row mt-5">
+                            <div class="col-md-4 rent-info">
+                                <p>Rent: &#8377; {{property.rent}}</p>
+                            </div>
+                            {% if shortlisted %}
+                            <div class="col-md-4">
+                                <button class="shortlist-btn" id="{{property.pk}}remove" onclick="remove(event, '{{property.pk}}')" ><i class="fas fa-minus-circle"></i> Remove</button>
+                            </div>
+                            {% else %}
+                            <div class="col-md-4">
+                                <button onclick="shortlist(event, '{{property.pk}}')" class="shortlist-btn"><i class="far fa-bookmark"></i> Shortlist</button>
+                            </div>
+                            {% endif %}
+                            <div class="col-md-4">
+                                <button type="button" class="contact-btn" data-toggle="modal" data-target="#exampleModal">
+                                    <i class="fas fa-phone"></i>  Contact 
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- MAP SECTION -->
+            <div class="col-lg-6 second-col">
+                <div id="mapid">
+    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- IMAGES SECTION -->
     <div class="container image-container">
         <h3 style="margin-bottom: 50px; padding-top: 20px;"> <i class="far fa-images"></i> Photos</h3>
         <div class="images">
@@ -171,7 +236,6 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
@@ -253,6 +317,28 @@
             }
         })
     }
+
+
+
+    function shortlist(event, pk){
+          console.log('going on....')
+          var shortlistURL = `{% url 'properties:shortlist' pk=property.pk %}`
+          $.ajax({
+                type: "POST",
+                url: shortlistURL,
+                data:{
+                    'csrfmiddlewaretoken': "{{ csrf_token }}"
+                },
+                dataType: 'json',
+                success: function(){
+                    window.location.href = "{% url 'properties:shortlisted' %}";
+                    console.log('Done!')
+                },
+                error: function(){
+                    alert("Could not perform action");
+                }
+            });
+        }
 </script>
 
 {% endblock %}

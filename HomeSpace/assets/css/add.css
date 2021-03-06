@@ -1,0 +1,75 @@
+/* NAVBAR */
+#brand-logo{
+    font-size: 1.4rem;
+}
+
+#login{
+    border: 2px solid #ff4747;
+    border-radius: 20px;
+    padding: 0.2rem 1rem!important;
+    color: #ff4747;
+}
+
+#login:hover{
+    color: white;
+    background-color: #ff4747;
+}
+
+#signup{
+    border: 2px solid #ff4747;
+    border-radius: 20px;
+    padding: 0.2rem 1rem!important;
+    color: #ff4747;
+}
+
+#signup:hover{
+    color: white;
+    background-color: #ff4747;
+}
+
+.custom-logo{
+    color: #ff4747;
+}
+
+.nav-link{
+    margin-right: 10px;
+}
+
+.navbar{
+    font-family: 'Poppins', sans-serif;
+    background-color: white;
+    box-shadow: 0px 8px 10px -10px #b5b5b5;
+}
+
+
+/* FORM SECTION */
+.add-form-container{
+    margin-top: 100px;
+    font-family: 'Inter', sans-serif;
+
+}
+
+.form-title{
+    margin-bottom: 30px;
+}
+
+
+.submit-button{
+    font-family: 'Inter', sans-serif;
+    border: 1px solid #ff4747;
+    border-radius:5px;
+    padding: 10px 20px;
+    background-color: #ff4747;
+    color: white;
+}
+
+
+
+/* OTHER DEVICES */
+@media only screen and (max-width:900px){
+
+    .nav-item{
+        margin-top: 10px;
+        text-align: center;
+    }
+}

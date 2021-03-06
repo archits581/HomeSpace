@@ -1,0 +1,39 @@
+
+/* MAIN CONTENT */
+.map-container{
+    font-family: 'Inter', sans-serif;
+    margin-top: 100px;
+}
+
+.map-title{
+    font-weight: 900;
+    margin-bottom: 50px;
+}
+
+
+#mapid{
+    margin-bottom: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 650px;
+    height: 450px;
+}
+
+.submit-button{
+    color: white;
+    border: 10px solid #449d44;
+}
+
+.submit-button:hover{
+    color: #449d44;
+}
+
+
+/* OTHER DEVICES */
+@media only screen and (max-width:900px){
+
+    .nav-item{
+        margin-top: 10px;
+        text-align: center;
+    }
+}
