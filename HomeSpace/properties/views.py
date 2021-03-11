@@ -130,7 +130,21 @@ def ajax_add_location(request, pk):
 def my_properties(request):
     properties = PropertyDescription.objects.all().filter(user=request.user)
     context = {}
-    context['properties'] = properties
+    results = [];
+    for p in properties:
+        l = [];
+        l.append(p);
+        if p.propertyimage_set.count() == 0:
+            l.append(0);
+        else:
+            l.append(1);
+        if not hasattr(p, 'location'):
+            l.append(0);
+        else:
+            l.append(1); 
+        results.append(l);  
+    context['properties'] = results;
+    print(results[0]);
     return render(request, 'properties/my.html', context)
 
 

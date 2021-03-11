@@ -177,7 +177,11 @@
                             <div class="col-md-4 rent-info">
                                 <p>Rent: &#8377; {{property.rent}}</p>
                             </div>
-                            {% if shortlisted %}
+                            {% if request.user.is_authenticated and request.user == property.user %}
+                            <div class="col-md-4">
+                                <button class="shortlist-btn" id="{{property.pk}}remove"  ><i class="fas fa-trash-alt"></i> Remove</button>
+                            </div>
+                            {% elif shortlisted %}
                             <div class="col-md-4">
                                 <button class="shortlist-btn" id="{{property.pk}}remove" onclick="remove(event, '{{property.pk}}')" ><i class="fas fa-minus-circle"></i> Remove</button>
                             </div>

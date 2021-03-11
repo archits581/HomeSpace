@@ -252,6 +252,7 @@
 
 
         $('#mymap').ready(function(e){
+
           '{% for obj in query_set %}'
             console.log('{{obj.location.lat}}, {{obj.location.long}}')
             marker = new L.marker([ '{{ obj.location.lat }}', '{{ obj.location.long }}']).addTo(mymap)

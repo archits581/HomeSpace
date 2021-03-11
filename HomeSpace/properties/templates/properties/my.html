@@ -8,8 +8,10 @@
 
     <!-- JQUERY -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
+    
+    <!-- FONT AWESOME KIT CODE -->
+    <script src="https://kit.fontawesome.com/3d6760da32.js" crossorigin="anonymous"></script>
+    
     <!-- POPPINS FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
@@ -27,7 +29,88 @@
 
 {% block content %}
 
-<!-- {{obj.propertyimage_set.count == 0}} -->
+<div class="container" style="margin-top: 100px;">
+    <div class="text-center">
+        <h1>
+            Your properties
+        </h1>
+    </div>
+
+    <div class="cards-container">
+        {% for p in properties %}
+          <div class="result-card container">
+            <div class="row">
+              <div class="col-lg-5 image-container">
+                {% if p.1 == 0 %}
+                    <img src="{% static 'img/default-home-img.png' %}" alt="">
+                {% elif p.1 == 1 %}
+                    <img src="{{ p.0.propertyimage_set.all.first.image.url }}" alt="{{ p.0.pk }} image">
+                {% endif %}
+                </div>
+              <div class="col-lg-7 info-container">
+                <div class="holder">
+                  <div class="row">
+                    <h5>{{ p.0.bhk }} BHK apartment in {{p.0.locality|title}}</h5>
+                  </div>
+                  <div class="row">
+                    <h3>{{p.0.building|title}}</h3>
+                  </div>
+                  <div class="row" style="margin-top: 20px;">
+                    {% if p.1 == 0 %}
+                    <div class="col-md-6" style="margin-top: 10px;">
+                        <button class="add-btn"><a href="{% url 'properties:add-images' pk=p.0.pk %}"><i class="fas fa-image"></i> Add Photos</a></button>
+                    </div>
+                    {% endif %}
+                    {% if p.2 == 0 %}
+                    <div class="col-md-6" style="margin-top: 10px;">
+                        <button class="add-btn"><a href="{% url 'properties:add-location' pk=p.0.pk %}"><i class="fas fa-map-marker-alt"></i> Add Location</a></button>
+                    </div>
+                    {% endif %}
+                    {% if p.1 == 1 and p.2 == 1 %}
+                    <div class="row" style="margin-top: 20px; color: #717171">
+                        <p class="features">&#8226;{{ p.0.furnished }} 
+                      
+                          {% if p.0.play_area %}
+                          &#8226;Children's play area
+                          {% endif %} 
+                          
+                          {% if p.0.lift %}
+                          &#8226;Elevator
+                          {% endif %}
+                          
+                          {% if p.0.gym %}
+                          &#8226;Gym
+                          {% endif %}
+                          
+                          {% if p.0.club_house %}
+                          &#8226;Club House
+                          {% endif %}
+            
+                          &#8226;For {{p.0.tenant_type}}
+                        </p>
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="row" style="margin-top: 20px;">
+                    <div class="col-lg-4">
+                      <p class="property-info-rent">&#8377;{{ p.0.rent }}/month</p>
+                    </div>
+                    <div class="col-lg-4">
+                        <button href="" class="shortlist-property-btn" id="{{p.0.pk}}shortlist"><i class="fas fa-trash-alt"></i> Delete</button>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                      <a href="" class="view-property-btn">View</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+</div> 
+
+
 
 {% endblock %}
 
