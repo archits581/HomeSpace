@@ -6,6 +6,26 @@
     font-family: 'Inter', sans-serif;
 }
 
+.empty-img{
+    width: 70%;
+}
+
+.add-property-btn{
+    padding: 10px 20px;
+    background-color: #ff4747;
+    border-radius: 3px;
+    border: none;
+}
+
+.add-property-btn > a{
+    text-decoration: none;
+    color: white;
+
+}
+.add-property-btn > a:hover{
+    text-decoration: none;
+}
+
 
  /* RESULT CARD SECTION */
  .result-card{

@@ -43,8 +43,6 @@
     box-shadow: 0px 8px 10px -10px #b5b5b5;
 }
 
-
-
 /* Heading */
 .heading-center{
     margin-top: 100px;
@@ -52,7 +50,9 @@
     font-weight: 900;
 }
 
-
+.empty-img{
+    width: 70%;
+}
 
  /* RESULT CARD SECTION */
  .result-card{

@@ -69,7 +69,7 @@ def homePage(request):
     return render(request, 'properties/landing.html', {})
 
 
-@login_required
+@login_required()
 def add_images(request, pk):
     if request.method == "POST":
         try:
@@ -130,6 +130,7 @@ def ajax_add_location(request, pk):
 def my_properties(request):
     properties = PropertyDescription.objects.all().filter(user=request.user)
     context = {}
+    context['empty'] = False;
     results = [];
     for p in properties:
         l = [];
@@ -144,12 +145,14 @@ def my_properties(request):
             l.append(1); 
         results.append(l);  
     context['properties'] = results;
-    print(results[0]);
+    if len( context['properties'] ) == 0:
+        context['empty'] = True;
     return render(request, 'properties/my.html', context)
 
 
 def search_property(request):    
     context = {}
+    context['empty'] = False;
     context['cities'] = City.objects.all()
     context['localities'] = Locality.objects.all()
 
@@ -176,6 +179,8 @@ def search_property(request):
                 current = prop_objects.qs[i]
                 if not request.user.is_authenticated and current.propertyimage_set.count() != 0 and hasattr(context['filter'].qs[i], 'location'):
                     context['query_set'].append(context['filter'].qs[i])
+            if len(context['query_set']) == 0:
+                context['empty'] = True;
             return render(request, 'properties/search.html', context)
         
         else:
@@ -183,6 +188,8 @@ def search_property(request):
                 current = prop_objects.qs[i]
                 if current.propertyimage_set.count() != 0 and (not Shortlisted.objects.filter(user=request.user, property=current).exists()) and hasattr(context['filter'].qs[i], 'location'):
                     context['query_set'].append(context['filter'].qs[i])
+            if len(context['query_set']) == 0:
+                context['empty'] = True;
     return render(request, 'properties/search.html', context)
 
 
@@ -190,7 +197,7 @@ def view_property(request, pk):
     try:
         property_object = PropertyDescription.objects.get(pk=pk)
     except PropertyDescription.DoesNotExist:
-        raise Http404('Could not find what you were looking for')
+        raise Http404
     context = {};
     context['owner'] = property_object.user
     context['phone_number'] = context['owner'].member
@@ -213,7 +220,7 @@ def view_property(request, pk):
     return render(request, 'properties/view.html', context)
 
 
-@login_required
+@login_required()
 def shortlist_property(request, pk):
     try:
         property_object = PropertyDescription.objects.get(pk=pk)
@@ -227,17 +234,20 @@ def shortlist_property(request, pk):
     return JsonResponse({"error":"some error occured"}, status=400)
 
 
-@login_required
+@login_required()
 def shortlisted_properties(request):
     properties = Shortlisted.objects.filter(user=request.user).values_list('property', flat=True)
     context = {}
     list = []
+    context['empty'] = False;
     for p in properties:
         list.append(PropertyDescription.objects.get(pk=p))
     context['query_set'] = list
+    if len(list) == 0:
+        context['empty'] = True;
     return render(request, 'properties/shortlisted.html', context);
 
-@login_required
+@login_required()
 def remove_shortlisted(request, pk):
     property_object = PropertyDescription.objects.get(pk=pk)
     user_object = request.user
@@ -258,3 +268,8 @@ def load_localities(request, pk):
         print('\nhello\n')
         return render(request, 'properties/city_dropdown.html', context)
     return JsonResponse({"error":"some error occured"}, status=400)
+
+
+def customhandler404(request, exception):
+    context = {}
+    return render(request, 'properties/404.html', context);
